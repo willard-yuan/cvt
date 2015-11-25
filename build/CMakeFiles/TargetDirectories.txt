@@ -1,0 +1,2 @@
+/Users/willard/codes/python/covdet/build/CMakeFiles/csfm.dir
+/Users/willard/codes/python/covdet/build/CMakeFiles/vl.dir
