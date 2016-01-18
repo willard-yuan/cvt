@@ -246,6 +246,7 @@ mexFunction(int nout, mxArray *out[],
   numRows = mxGetM(IN(I)) ;  /* 获得矩阵的行数 */
   numCols = mxGetN(IN(I)) ;  /* 获得矩阵的列数 */
   
+  /* 测试图像 */
   {
 	  vl_index tmp;
 	  for(tmp = 1024; tmp < (signed)1035; ++tmp){
