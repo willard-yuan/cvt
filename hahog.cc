@@ -169,11 +169,11 @@ bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_sup
                                   (double)(patchSide - 1) / 2, (double)(patchSide - 1) / 2,
                                   (double)patchRelativeExtent / (3.0 * (4 + 1) / 2) / patchStep,
                                   VL_PI / 2);
-            cout << "test:" << endl;
+            /*cout << "test:" << endl;
             for(vl_index j = 0; j < 128; ++j){
                 cout << desc[dimension * i+j] << "\t";
             }
-            cout << endl;
+            cout << endl;*/
         }
         vl_sift_delete(sift);
         vl_covdet_delete(covdet);
