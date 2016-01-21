@@ -5,11 +5,11 @@
 #include <iostream>
 
 extern "C" {
-  #include "vl/covdet.h"
-  #include "vl/sift.h"
-  #include "vl/generic.h"
-  #include "vl/host.h"
-  #include <time.h>
+#include "vl/covdet.h"
+#include "vl/sift.h"
+#include "vl/generic.h"
+#include "vl/host.h"
+#include <time.h>
 }
 
 using namespace std;
@@ -18,33 +18,33 @@ using namespace std;
 namespace csfm {
 
 bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_suppression, bool verbose) {
-    
+
     PyArrayContiguousView<float> im((PyArrayObject *)image);
-    
+
     typedef enum _VlCovDetDescriptorType{
         VL_COVDET_DESC_SIFT
     } VlCovDetDescriporType;
-    
-    
+
+
     VlCovDetMethod method = VL_COVDET_METHOD_DOG;
     vl_bool estimateAffineShape = VL_FALSE;
     vl_bool estimateOrientation = VL_FALSE;
-    
+
     vl_bool doubleImage = VL_TRUE;
     vl_index octaveResolution = -1;
     double edgeThreshold = 10;
     double peakThreshold = 0.01;
     double lapPeakThreshold = -1;
-    
+
     int descriptorType = -1;
     vl_index patchResolution = -1;
     double patchRelativeExtent = -1;
     double patchRelativeSmoothing = -1;
 
     double boundaryMargin = 2.0;
-    
+
     if (descriptorType < 0) descriptorType = VL_COVDET_DESC_SIFT;
-    
+
     switch (descriptorType){
         case VL_COVDET_DESC_SIFT:
             if (patchResolution < 0) patchResolution = 15;
@@ -52,32 +52,32 @@ bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_sup
             if (patchRelativeSmoothing <0) patchRelativeSmoothing = 1;
             cout << "vl_covdet: patchRelativeExtent " << patchRelativeExtent << endl;
     }
-    
-    
+
+
     if (im.valid()) {
         clock_t t_start = clock();
         // create a detector object: VL_COVDET_METHOD_HESSIAN
         VlCovDet * covdet = vl_covdet_new(method);
-      
+
         // set various parameters (optional)
         vl_covdet_set_first_octave(covdet, doubleImage? -1 : 0);
-      
+
         //vl_covdet_set_octave_resolution(covdet, octaveResolution);
         if (octaveResolution >= 0) vl_covdet_set_octave_resolution(covdet, octaveResolution);
         if (peakThreshold >= 0) vl_covdet_set_peak_threshold(covdet, peakThreshold);
         if (edgeThreshold >= 0) vl_covdet_set_edge_threshold(covdet, edgeThreshold);
         if (lapPeakThreshold >= 0) vl_covdet_set_laplacian_peak_threshold(covdet, lapPeakThreshold);
-    
+
         //vl_covdet_set_target_num_features(covdet, target_num_features);
         //vl_covdet_set_use_adaptive_suppression(covdet, use_adaptive_suppression);
-      
+
         if(verbose){
             std::cout << "vl_covdet: doubling image: " << VL_YESNO(vl_covdet_get_first_octave(covdet) < 0) << endl;
         }
 
         if (verbose) {
             cout << "vl_covdet: detector: " << vl_enumeration_get_by_value(vlCovdetMethods, method)->name << endl;
-            cout << "vl_covdet: peak threshold: " << vl_covdet_get_peak_threshold(covdet) << ", edge threshold: " << vl_covdet_get_edge_threshold(covdet) << endl; 
+            cout << "vl_covdet: peak threshold: " << vl_covdet_get_peak_threshold(covdet) << ", edge threshold: " << vl_covdet_get_edge_threshold(covdet) << endl;
         }
         // process the image and run the detector
         vl_covdet_put_image(covdet, im.data(), im.shape(1), im.shape(0));
@@ -87,12 +87,12 @@ bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_sup
 
         if (verbose) {
             vl_size numFeatures = vl_covdet_get_num_features(covdet) ;
-            cout << "vl_covdet: " << vl_covdet_get_num_non_extrema_suppressed(covdet) << " features suppressed as duplicate (threshold: " 
+            cout << "vl_covdet: " << vl_covdet_get_num_non_extrema_suppressed(covdet) << " features suppressed as duplicate (threshold: "
             << vl_covdet_get_non_extrema_suppression_threshold(covdet) << ")"<< endl;
             cout << "vl_covdet: detected " << numFeatures << " features" << endl;
         }
 
-    
+
         //drop feature on the margin(optimal)
         if(boundaryMargin > 0){
             vl_covdet_drop_features_outside(covdet, boundaryMargin);
@@ -130,12 +130,12 @@ bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_sup
         vl_index i;
         vl_size dimension = 128;
         vl_size patchSide = 2 * patchResolution + 1;
-  
+
         std::vector<float> points(6 * numFeatures);
         std::vector<float> desc(dimension * numFeatures);
         std::vector<float> patch(patchSide * patchSide);
         std::vector<float> patchXY(2 * patchSide * patchSide);
-    
+
         double patchStep = (double)patchRelativeExtent / patchResolution;
 
         if (verbose) {
@@ -169,6 +169,11 @@ bp::object hahog(PyObject *image, int target_num_features, bool use_adaptive_sup
                                   (double)(patchSide - 1) / 2, (double)(patchSide - 1) / 2,
                                   (double)patchRelativeExtent / (3.0 * (4 + 1) / 2) / patchStep,
                                   VL_PI / 2);
+            cout << "test:" << endl;
+            for(vl_index j = 0; j < 128; ++j){
+                cout << desc[dimension * i+j] << "\t";
+            }
+            cout << endl;
         }
         vl_sift_delete(sift);
         vl_covdet_delete(covdet);

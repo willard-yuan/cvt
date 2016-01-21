@@ -650,6 +650,7 @@ mexFunction(int nout, mxArray *out[],
         *pt++ = feature[i].frame.a12 ;
         *pt++ = feature[i].frame.a21 ;
         *pt++ = feature[i].frame.a11 ;
+		printf("%f, %f, %f, %f, %f, %f\n", feature[i].frame.x, feature[i].frame.y, feature[i].frame.a11, feature[i].frame.a12, feature[i].frame.a21, feature[i].frame.a22);
       }
     }
 
@@ -696,7 +697,7 @@ mexFunction(int nout, mxArray *out[],
           vl_size numFeatures = vl_covdet_get_num_features(covdet) ;
           VlCovDetFeature const * feature = vl_covdet_get_features(covdet);
           VlSiftFilt * sift = vl_sift_new(16, 16, 1, 3, 0) ;
-          vl_index i ;
+          vl_index i, j ;
           vl_size dimension = 128 ;
           vl_size patchSide = 2 * patchResolution + 1 ;
           double patchStep = (double)patchRelativeExtent / patchResolution ;
@@ -718,7 +719,6 @@ mexFunction(int nout, mxArray *out[],
                                               patchRelativeExtent,
                                               patchRelativeSmoothing,
                                               feature[i].frame) ;
-
             vl_imgradient_polar_f (patchXY, patchXY +1,
                                    2, 2 * patchSide,
                                    patch, patchSide, patchSide, patchSide) ;
@@ -740,7 +740,10 @@ mexFunction(int nout, mxArray *out[],
                                          (double)patchRelativeExtent / (3.0 * (4 + 1) / 2) /
                                          patchStep,
                                          VL_PI / 2) ;
-
+			/*mexPrintf("\n");
+			for(j = 0; j < (signed)128; j++){
+				mexPrintf("%f\t", tempDesc[j]);
+			}*/
             flip_descriptor (desc, tempDesc) ;
             desc += dimension ;
           }
