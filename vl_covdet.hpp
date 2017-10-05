@@ -1,5 +1,4 @@
-
-#include "covdetExtractor.hpp"
+/* author: yongyuan.name */
 
 extern "C" {
 #include "vl/covdet.h"
@@ -9,7 +8,9 @@ extern "C" {
 #include <time.h>
 }
 
-void siftDesctor::flip_descriptor(std::vector<float> &dst, float *src){
+#include "general.hpp"
+
+void flip_descriptor(std::vector<float> &dst, float *src){
     dst.resize(128);
     int const BO = 8; /* number of orientation bins */
     int const BP = 4; /* number of spatial bins     */
@@ -28,17 +29,18 @@ void siftDesctor::flip_descriptor(std::vector<float> &dst, float *src){
     }
 }
 
-void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
-                                                   std::vector<std::vector<float>> &frames,
-                                                   std::vector<std::vector<float>> &desctor)
+
+void vl_covdet(cv::Mat &imgRGB, std::vector<std::vector<float>> &frames, std::vector<std::vector<float>> &descs)
 {
-    // Loading image
-    int verbose = 1;
-    bool display_image = 0;
-    std::string image_path = imageName;
-    cv::Mat img = cv::imread(imageName.c_str());   // Read the file
-    cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
+    if (! imgRGB.data ) /* Check for invalid input */
+    {
+        std::cout << "image is NULL" << std::endl ;
+        //return false;
+    }
     
+    cv::Mat img;
+    int verbose = 1;
+    cv::cvtColor(imgRGB, img, cv::COLOR_BGR2GRAY);
     img.convertTo(img, CV_32FC1);
     
     vl_size numCols, numRows;
@@ -47,26 +49,11 @@ void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
     
     img = (cv::Mat_<float>)img/255.0;
     
-    if (! img.data )                              // Check for invalid input
-    {
-        std::cout <<  "Could not open or find image " << image_path << std::endl ;
-        //return false;
-    }
-    
-    // This is for debugging, checking the image was correctly loaded.
-    if (display_image) {
-        std::string window_name = "Image " + image_path;
-        namedWindow(window_name, cv::WINDOW_AUTOSIZE );// Create a window for display.
-        imshow(window_name, img);               // Show our image inside it.
-        cv::waitKey(0);                                 // Wait for a keystroke in the window
-    }
-    
     cv::Mat imageTest(img.rows, img.cols, CV_32FC1);
     cv::Mat imgT(img.cols, img.rows, CV_32FC1);
     img.copyTo(imageTest);
     imgT = img.t();
     imgT = imgT.reshape(1,1);
-    //std::cout << imgT << std::endl;
     
     float *image = new float[(int)imgT.cols];
     for(int i = 0; i < imgT.cols; i++){
@@ -90,7 +77,7 @@ void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
     
     vl_index octaveResolution = -1;
     double edgeThreshold = 10;  // edgeThreshold must be a real not smaller than 1
-    double peakThreshold = 0.01;  // peakThreshold must be a non-negative real
+    double peakThreshold = 0.0005;  // peakThreshold must be a non-negative real, eg: 0.01
     double lapPeakThreshold = -1;
     
     int descriptorType = -1;
@@ -155,7 +142,7 @@ void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
         if (verbose) {
             vl_size numFeatures = vl_covdet_get_num_features(covdet) ;
             VL_PRINTF("vl_covdet: %d features suppressed as duplicate (threshold: %g)\n", vl_covdet_get_num_non_extrema_suppressed(covdet), vl_covdet_get_non_extrema_suppression_threshold(covdet));
-            VL_PRINTF("vl_covdet: detected %d features", numFeatures);
+            VL_PRINTF("vl_covdet: detected %d features\n", numFeatures);
         }
         
         
@@ -259,7 +246,7 @@ void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
                                         (double)patchRelativeExtent / (3.0 * (4 + 1) / 2) / patchStep,
                                         VL_PI / 2);
             flip_descriptor(desc, tempDesc);
-            desctor.push_back(desc);
+            descs.push_back(desc);
             
 #if 0
             std::cout << std::setiosflags(std::ios::fixed);
@@ -273,7 +260,7 @@ void siftDesctor::covdet_keypoints_and_descriptors(std::string &imageName,
         vl_sift_delete(sift);
         vl_covdet_delete(covdet);
         delete[] patch;
-        delete[] patchXY;
         delete[] image;
+        delete[] patchXY;
     }
 }
