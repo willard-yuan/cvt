@@ -5,8 +5,23 @@ C++ API for covdet of VLFeat
 ## Dependencies
 
 - OpenCV, 3.x or 2.x
-- VLFeat, [VLFeat 0.9.20](http://www.vlfeat.org/)
+- [VLFeat 0.9.20](http://www.vlfeat.org/), included in the project
 - Armadillo, [armadillo-8.x](http://arma.sourceforge.net/download.html)
+
+## Build
+
+```sh
+cd covdet
+mkdir build && cd build
+cmake ..
+make
+```
+
+After finished compiling, just run:
+
+```sh
+./main
+```
 
 ## Matching Result
 
