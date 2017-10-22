@@ -4,9 +4,11 @@ C++ API for covdet of VLFeat
 
 ## Dependencies
 
-- OpenCV, 3.x or 2.x
-- [VLFeat 0.9.20](http://www.vlfeat.org/), included in the project
-- Armadillo, [armadillo-8.x](http://arma.sourceforge.net/download.html)
+- OpenCV, 3.x or 2.x.
+- [VLFeat 0.9.20](http://www.vlfeat.org/), has already included in the project
+- Armadillo, [armadillo-8.x](http://arma.sourceforge.net/download.html).
+
+You must install OpenCV and Armadillo, then you can compile it successfully.
 
 ## Build
 
