@@ -29,7 +29,7 @@ if (OPENMP_FOUND)
 endif()
 
 # OpenCV
-set(OpenCV_DIR /usr/local/Cellar/opencv/3.3.0_3/share/OpenCV)
+#set(OpenCV_DIR /usr/local/Cellar/opencv/3.3.0_3/share/OpenCV)
 find_package(OpenCV REQUIRED)
 
 message(STATUS "OpenCV library status:")
@@ -38,14 +38,14 @@ message(STATUS "    libraries: ${OpenCV_LIBS}")
 message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 
 # Armadillo
-#find_package(Armadillo REQUIRED)
-set(ARMADILLO_LIBRARIES "/usr/local/Cellar/armadillo/8.100.1/lib/libarmadillo.dylib")
-set(ARMADILLO_INCLUDE_DIR "/usr/local/Cellar/armadillo/8.100.1/include")
+find_package(Armadillo REQUIRED)
+#set(ARMADILLO_LIBRARIES "/usr/local/Cellar/armadillo/8.100.1/lib/libarmadillo.dylib")
+#set(ARMADILLO_INCLUDE_DIR "/usr/local/Cellar/armadillo/8.100.1/include")
 
 # VLFeat
-SET(VLFEAT_INCLUDE_DIRS "/Users/willard/Public/github/covdet/3rd/VLFeat/")
+SET(VLFEAT_INCLUDE_DIRS "./3rd/VLFeat/")
 ADD_DEFINITIONS("-DVL_DISABLE_AVX")
-FILE(GLOB VLFEAT_SOURCE_FILES /Users/willard/Public/github/covdet/3rd/VLFeat/vl/*.c) # PATH TO vlfeat so we can do ugly glob
+FILE(GLOB VLFEAT_SOURCE_FILES ./3rd/VLFeat/vl/*.c) # PATH TO vlfeat so we can do ugly glob
 MESSAGE(STATUS "VLFeat sources path: ${VLFEAT_SOURCE_FILES}")
 ADD_LIBRARY(vlfeats ${VLFEAT_SOURCE_FILES} )
 
@@ -58,5 +58,5 @@ file(GLOB helloworld_SRC
     "*.cpp"
     )
 
-add_executable(main ${helloworld_SRC})
-target_link_libraries (main ${OpenCV_LIBS} vlfeats ${ARMADILLO_LIBRARIES})
+add_executable(demo ${helloworld_SRC})
+target_link_libraries (demo ${OpenCV_LIBS} vlfeats ${ARMADILLO_LIBRARIES})
