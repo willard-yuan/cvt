@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/vlfeat.dir/aib.o"
+  "CMakeFiles/vlfeat.dir/array.o"
+  "CMakeFiles/vlfeat.dir/covdet.o"
+  "CMakeFiles/vlfeat.dir/dsift.o"
+  "CMakeFiles/vlfeat.dir/fisher.o"
+  "CMakeFiles/vlfeat.dir/generic.o"
+  "CMakeFiles/vlfeat.dir/getopt_long.o"
+  "CMakeFiles/vlfeat.dir/gmm.o"
+  "CMakeFiles/vlfeat.dir/hikmeans.o"
+  "CMakeFiles/vlfeat.dir/hog.o"
+  "CMakeFiles/vlfeat.dir/homkermap.o"
+  "CMakeFiles/vlfeat.dir/host.o"
+  "CMakeFiles/vlfeat.dir/ikmeans.o"
+  "CMakeFiles/vlfeat.dir/imopv.o"
+  "CMakeFiles/vlfeat.dir/imopv_sse2.o"
+  "CMakeFiles/vlfeat.dir/kdtree.o"
+  "CMakeFiles/vlfeat.dir/kmeans.o"
+  "CMakeFiles/vlfeat.dir/lbp.o"
+  "CMakeFiles/vlfeat.dir/liop.o"
+  "CMakeFiles/vlfeat.dir/mathop.o"
+  "CMakeFiles/vlfeat.dir/mathop_avx.o"
+  "CMakeFiles/vlfeat.dir/mathop_sse2.o"
+  "CMakeFiles/vlfeat.dir/mser.o"
+  "CMakeFiles/vlfeat.dir/pgm.o"
+  "CMakeFiles/vlfeat.dir/quickshift.o"
+  "CMakeFiles/vlfeat.dir/random.o"
+  "CMakeFiles/vlfeat.dir/rodrigues.o"
+  "CMakeFiles/vlfeat.dir/scalespace.o"
+  "CMakeFiles/vlfeat.dir/sift.o"
+  "CMakeFiles/vlfeat.dir/slic.o"
+  "CMakeFiles/vlfeat.dir/stringop.o"
+  "CMakeFiles/vlfeat.dir/svm.o"
+  "CMakeFiles/vlfeat.dir/svmdataset.o"
+  "CMakeFiles/vlfeat.dir/vlad.o"
+  "libvlfeat.pdb"
+  "libvlfeat.a"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/vlfeat.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

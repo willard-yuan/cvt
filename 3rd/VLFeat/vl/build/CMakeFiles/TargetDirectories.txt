@@ -1,0 +1,3 @@
+/Users/willard/Public/github/covdet/3rd/VLFeat/build/CMakeFiles/rebuild_cache.dir
+/Users/willard/Public/github/covdet/3rd/VLFeat/build/CMakeFiles/edit_cache.dir
+/Users/willard/Public/github/covdet/3rd/VLFeat/build/CMakeFiles/vlfeat.dir

@@ -13,13 +13,13 @@ int main(int argc, char** argv){
     std::string annSearch = "OpenCV_KD";
     
     // 提取covdet特征
-    std::string qimageName = "/Users/willard/Pictures/0919/wine_2.jpg";
+    std::string qimageName = "../imgs/wine_2.jpg";
     std::vector<std::vector<float>> qframes;
     std::vector<std::vector<float>> qdesc;
     cv::Mat qMat = cv::imread(qimageName);
     vl_covdet(qMat, qframes, qdesc);
     
-    std::string dimageName = "/Users/willard/Pictures/0919/wine_1.jpg";
+    std::string dimageName = "../imgs/wine_1.jpg";
     std::vector<std::vector<float>> dframes;
     std::vector<std::vector<float>> ddesc;
     cv::Mat dMat = cv::imread(dimageName);
