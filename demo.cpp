@@ -7,8 +7,8 @@
 
 
 int main(int argc, char** argv){
-    
-	superluOpts opts; //几何校正参数
+	
+    superluOpts opts; //几何校正参数
     int numNeighbors = 2;
     std::string annSearch = "OpenCV_KD";
     
