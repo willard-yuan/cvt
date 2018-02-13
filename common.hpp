@@ -15,4 +15,6 @@ void drawMatch(cv::Mat &srcImg, cv::Mat &objImg, const std::vector<cv::KeyPoint>
 
 int ResizeImage(const cv::Mat& raw_img, cv::Mat& img, const int kShorterEdge, bool resize);
 
+bool idxdist(cv::DMatch first, cv::DMatch second);
+
 #endif /* common_hpp */
