@@ -3,13 +3,10 @@
 
 SVF::SVF(){}
 
-int SVF::spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::KeyPoint &pb0, const cv::KeyPoint &pb1) {
-    // A图像两个关键点的角度差
+int SVF::spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::KeyPoint &pb0, const cv::KeyPoint &pb1)
+{
     float angleA = pa0.angle - pa1.angle;
-    // B图像
     float angleB = pb0.angle - pb1.angle;
-    
-    // 两角度差值的绝对值
     float diff1 = std::abs(angleA - angleB);
     
     float thetaA;
@@ -125,42 +122,6 @@ int SVF::getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vector<cv::KeyPoint>
     delete [] brother_matrix;
     
     return (int)SVFMatches.size();
-}
-
-
-int SVF::OctaveDiff(float octave1, float octave2, int* idx)
-{
-    float octave_diff = octave1 - octave2;
-    while(octave_diff < 0.0) octave_diff += 8;
-    while(octave_diff >= 8) octave_diff -= 8;
-    *idx = int(octave_diff + 0.5) / kMaxOctaveSlices;
-    *idx = (*idx < 0) ? 0 : *idx;
-    *idx = (*idx >= kMaxOctaveSlices) ? (kMaxOctaveSlices-1) : *idx;
-    return 0;
-}
-
-int SVF::OctaveValidate(std::vector<cv::KeyPoint>& kpts1, std::vector<cv::KeyPoint>& kpts2, std::vector<cv::DMatch>* good_matches)
-{
-    std::vector<int32_t> octave_diff;
-    octave_diff.resize(kMaxOctaveSlices);
-    std::fill(octave_diff.begin(), octave_diff.end(), 0);
-    int octave_diff_idx = -1;
-    for(auto i = good_matches->begin(); i != good_matches->end(); i++) {
-        OctaveDiff(kpts1[i->queryIdx].octave, kpts2[i->trainIdx].octave, &octave_diff_idx);
-        octave_diff[octave_diff_idx] += 1;
-    }
-    int max_idx = (int)std::distance(octave_diff.begin(), std::max_element(octave_diff.begin(), octave_diff.end()));
-    std::cout << "CheckOctaveDiff max_idx: " << max_idx << std::endl;
-    auto i = good_matches->begin();
-    do {
-        OctaveDiff(kpts1[i->queryIdx].octave, kpts2[i->trainIdx].octave, &octave_diff_idx);
-        if(abs(octave_diff_idx - max_idx) > 1) {
-            i = good_matches->erase(i);
-        }else {
-            i++;
-        }
-    }while(i != good_matches->end());
-    return 0;
 }
 
 // this function should be called after getInliers

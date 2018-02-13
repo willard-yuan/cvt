@@ -1,6 +1,11 @@
-## covdet
+## Covdet
 
 C++ API for covdet of VLFeat
+
+## Algorithm
+
+- geo_verification.hpp, RANSAC based method, see demo.cpp
+- SVF.cpp, Hough voting based method, the demo can be found in image_match.cpp
 
 ## Dependencies
 
@@ -32,5 +37,3 @@ The following images show the matching results after geometry verificaiton:
 ![](http://ose5hybez.bkt.clouddn.com/github/covdet/brand.png)
 
 ![](http://ose5hybez.bkt.clouddn.com/github/covdet/wine.png)
-
-![](http://ose5hybez.bkt.clouddn.com/github/covdet/tower.png)

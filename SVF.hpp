@@ -25,9 +25,6 @@ private:
     int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, \
                       const cv::KeyPoint &pb0, const cv::KeyPoint &pb1);
     
-    int OctaveDiff(float octave1, float octave2, int* idx);
-    int OctaveValidate(std::vector<cv::KeyPoint>& kpts1, std::vector<cv::KeyPoint>& kpts2, std::vector<cv::DMatch>* good_matches);
-    
 };
 
 #endif /* SVF_hpp */
