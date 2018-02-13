@@ -35,5 +35,3 @@ After finished compiling, just run:
 The following images show the matching results after geometry verificaiton:
 
 ![](http://ose5hybez.bkt.clouddn.com/github/covdet/brand.png)
-
-![](http://ose5hybez.bkt.clouddn.com/github/covdet/wine.png)
