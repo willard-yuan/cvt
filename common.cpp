@@ -75,3 +75,10 @@ int ResizeImage(const cv::Mat& raw_img, cv::Mat& img, const int kShorterEdge, bo
     cv::resize(croped_img, img, cv::Size(0,0), ratio, ratio);
     return 0;
 }
+
+bool idxdist(cv::DMatch first, cv::DMatch second)
+{
+    if (first.trainIdx == second.trainIdx)
+        return first.distance < second.distance;
+    return first.trainIdx < second.trainIdx;
+}
