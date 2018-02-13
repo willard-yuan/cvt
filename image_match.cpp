@@ -25,6 +25,24 @@ localFeatInfo extract(cv::Mat &img)
     return siftInfo;
 }
 
+std::vector<cv::DMatch> delRepeat(std::vector<cv::DMatch> & rawMatches)
+{
+    std::vector<cv::DMatch> goodMatches;
+    if(rawMatches.size() <= 0) return goodMatches;
+    std::sort(rawMatches.begin(), rawMatches.end(), idxdist);
+    
+    goodMatches.push_back(rawMatches[0]);
+    int base = rawMatches[0].trainIdx;
+    for(int i = 1; i < rawMatches.size(); ++i)
+    {
+        if(base != rawMatches[i].trainIdx){
+            base = rawMatches[i].trainIdx;
+            goodMatches.push_back(rawMatches[i]);
+        }
+    }
+    return goodMatches;
+}
+
 int main(int argc, const char * argv[]) {
     
     cv::Mat img1 = cv::imread("/Users/willard/Pictures/111/1446522480_120.jpg");
