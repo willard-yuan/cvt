@@ -9,6 +9,8 @@
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d/nonfree.hpp>
 
+#include "common.hpp"
+
 #define PI 3.141592653589793f
 const static uint32_t kMaxOctaveSlices = 8;
 
