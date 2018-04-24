@@ -1,37 +1,13 @@
-## Covdet
+## CVTK简介
 
-C++ API for covdet of VLFeat
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](../LICENSE)
 
-## Algorithm
+CVTK, a computer vision toolkit. 
 
-- geo_verification.hpp, RANSAC based method, see demo.cpp
-- SVF.cpp, Hough voting based method, the demo can be found in image_match.cpp
+CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
 
-## Dependencies
+## CVTK应用
 
-- OpenCV, 3.x or 2.x.
-- [VLFeat 0.9.20](http://www.vlfeat.org/), has already included in the project
-- Armadillo, [armadillo-8.x](http://arma.sourceforge.net/download.html).
-
-You must install OpenCV and Armadillo, then you can compile it successfully.
-
-## Build
-
-```sh
-cd covdet
-mkdir build && cd build
-cmake ..
-make
-```
-
-After finished compiling, just run:
-
-```sh
-./main
-```
-
-## Matching Result
-
-The following images show the matching results after geometry verificaiton:
-
-![](http://ose5hybez.bkt.clouddn.com/github/covdet/brand.png)
+- [**hnsw_sifts_retrieval**](https://github.com/willard-yuan/mykit/tree/master/cvkit/hnsw_sifts_retrieval)，一个已直接索引SIFT并通过SIFT匹配点数排序的检索应用，在使用SIFT点数排序的时候，对SIFT匹配的点数做了弱几何校验，剔除误匹配的点数。详细在[**doc**]()里有说明。
+- [**covdet**](), C++ API for covdet of VLFeat，read [**doc**]() in details.
+- [**PCA降维**](https://github.com/willard-yuan/util-scripts/tree/master/cvkit/pca)，对于[**doc**]()
