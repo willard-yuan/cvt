@@ -1,6 +1,37 @@
 
 #include "svf.hpp"
 
+// eliminating repeated points
+void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vector<cv::KeyPoint>&  mkeypoints, std::vector< cv::DMatch >& good_matches, double pos_threshold = 1.0)
+{
+    std::vector<cv::DMatch> existed_matches;
+    for (size_t i = 0; i < good_matches.size();)
+    {
+        bool bExisted = false;
+        for (size_t j = 0; j < existed_matches.size(); j++)
+        {
+            if (fabs(mkeypoints[existed_matches[j].trainIdx].pt.x - mkeypoints[good_matches[i].trainIdx].pt.x) < pos_threshold
+                || fabs(skeypoints[existed_matches[j].queryIdx].pt.x - skeypoints[good_matches[i].queryIdx].pt.x) < pos_threshold)
+            {
+                bExisted = true;
+                break;
+            }
+        }
+        
+        if (!bExisted)
+        {
+            existed_matches.push_back(good_matches[i]);
+        }
+        else
+        {
+            good_matches.erase(good_matches.begin() + i);
+            continue;
+        }
+        
+        i++;
+    }
+}
+
 // 功能说明：对SIFT进行空间校验
 // 输入：图a的两个关键点，图b的两个关键点
 int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::KeyPoint &pb0, const cv::KeyPoint &pb1)
@@ -125,6 +156,8 @@ std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vecto
         delete [] brother_matrix[i];
     }
     delete [] brother_matrix;
+    
+    removeRepeated(qKpts1, qKpts2, goodMatches);
     
     return goodMatches;
 }
