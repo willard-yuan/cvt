@@ -17,7 +17,7 @@ void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vect
                 break;
             }
         }
-        
+
         if (!bExisted)
         {
             existed_matches.push_back(good_matches[i]);
@@ -27,7 +27,7 @@ void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vect
             good_matches.erase(good_matches.begin() + i);
             continue;
         }
-        
+
         i++;
     }
 }
@@ -40,11 +40,11 @@ int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::Ke
     float angleA = pa0.angle - pa1.angle;
     // B图像
     float angleB = pb0.angle - pb1.angle;
-    
+
     // 两角度差值的绝对值
     float diff1 = std::abs(angleA - angleB);
-    
-    
+
+
     float thetaA;
     float deltaX_A = pa1.pt.x - pa0.pt.x;
     float deltaY_A = pa1.pt.y - pa0.pt.y;
@@ -66,7 +66,7 @@ int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::Ke
         }
     }
     thetaA -= pa0.angle;
-    
+
     float thetaB;
     float deltaX_B = pb1.pt.x - pb0.pt.x;
     float deltaY_B = pb1.pt.y - pb0.pt.y;
@@ -88,9 +88,9 @@ int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::Ke
         }
     }
     thetaB -= pb0.angle;
-    
+
     float diff2 = std::abs(thetaA - thetaB);
-    
+
     if (diff1 < 10 && diff2 < 10) return 1;
     return 0;
 }
@@ -105,7 +105,7 @@ std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vecto
         brother_matrix[i] = new int[numRawMatch];
         brother_matrix[i][i] = 0;
     }
-    
+
     for (int i = 0; i < numRawMatch; i++)
     {
         int queryIdx0 = rawMatches[i].queryIdx;
@@ -122,7 +122,7 @@ std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vecto
             brother_matrix[j][i] = brother_matrix[i][j];
         }
     }
-    
+
     int map_size = numRawMatch;
     int *mapId = new int[numRawMatch];
     for (int i = 0; i < numRawMatch; i++) mapId[i] = i;
@@ -149,16 +149,16 @@ std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vecto
         }
         map_size = maxv;
     }
-    
+
     delete [] mapId;
     for(int i=0; i < numRawMatch; i++)
     {
         delete [] brother_matrix[i];
     }
     delete [] brother_matrix;
-    
+
     removeRepeated(qKpts1, qKpts2, goodMatches);
-    
+
     return goodMatches;
 }
 
