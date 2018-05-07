@@ -14,8 +14,6 @@
 #include <unordered_map>
 
 
-
-
 namespace hnswlib {
     typedef unsigned int tableint;
     typedef unsigned int linklistsizeint;
@@ -32,45 +30,41 @@ namespace hnswlib {
             loadIndex(location, s);
         }
 
+        // SpaceInterface度量空间类，max_elements最大索引数目，M
         HierarchicalNSW(SpaceInterface<dist_t> *s, size_t max_elements, size_t M = 16, size_t ef_construction = 200) :
-                link_list_locks_(max_elements), element_levels_(max_elements) {
-            max_elements_ = max_elements;
+                link_list_locks_(max_elements), element_levels_(max_elements) { // 边链表大小初始化为最大向量数目，每个向量所在层数
+            max_elements_ = max_elements; // 最大索引数据量
 
-
-            data_size_ = s->get_data_size();
-            fstdistfunc_ = s->get_dist_func();
-            dist_func_param_ = s->get_dist_func_param();
+            data_size_ = s->get_data_size(); // 一个向量所占字节数
+            fstdistfunc_ = s->get_dist_func(); // 计算距离函数
+            dist_func_param_ = s->get_dist_func_param(); // 获取距离计算函数的参数：向量维度
             M_ = M;
-            maxM_ = M_;
-            maxM0_ = M_ * 2;
-            ef_construction_ = std::max(ef_construction,M_);
+            maxM_ = M_; // 第i层每个节点最大连接数目？
+            maxM0_ = M_ * 2; // 第0层每个节点最大连接数目？
+            ef_construction_ = std::max(ef_construction, M_);
             ef_ = 10;
 
-
-
-            size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
-            size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype);
-            offsetData_ = size_links_level0_;
-            label_offset_ = size_links_level0_ + data_size_;
+            size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint); // 260, 第0层连接数目？
+            size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype); // 780, 每一个向量占用字节数？
+            offsetData_ = size_links_level0_; // 260
+            label_offset_ = size_links_level0_ + data_size_; // 260+512=772
             offsetLevel0_ = 0;
 
-            data_level0_memory_ = (char *) malloc(max_elements_ * size_data_per_element_);
-            if (data_level0_memory_ == nullptr)
+            data_level0_memory_ = (char *) malloc(max_elements_ * size_data_per_element_); // 所有向量在第0层占用的总字节数
+            if (data_level0_memory_ == nullptr) // 异常处理
                 throw new std::runtime_error("Not enough memory");
 
-            cur_element_count = 0;
+            cur_element_count = 0; // 当前节点的链接数目？
 
-            visited_list_pool_ = new VisitedListPool(1, max_elements);
-
-
+            visited_list_pool_ = new VisitedListPool(1, (int)max_elements); // 初始化initmaxpools为1，numelements初始化为所有向量数目
 
             //initializations for special treatment of the first node
-            enterpoint_node_ = -1;
-            maxlevel_ = -1;
+            enterpoint_node_ = -1; // 输入节点数目
+            maxlevel_ = -1; // 最大层数目
 
-            linkLists_ = (char **) malloc(sizeof(void *) * max_elements_);
-            size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint);
-            mult_ = 1 / log(1.0 * M_);
+            linkLists_ = (char **) malloc(sizeof(void *) * max_elements_); // 35185个连接列表
+            size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint); // 每一个向量连接占用的字节数：32*4 + 4
+            mult_ = 1 / log(1.0 * M_); // a simple chioce for the optimal levelMult is 1/ln(M)
             revSize_ = 1.0 / mult_;
         }
 
@@ -92,10 +86,10 @@ namespace hnswlib {
             delete visited_list_pool_;
         }
 
-        size_t max_elements_;
-        size_t cur_element_count;
-        size_t size_data_per_element_;
-        size_t size_links_per_element_;
+        size_t max_elements_; // 向量最大数目
+        size_t cur_element_count; // 当前已有向量数目
+        size_t size_data_per_element_; // 每一个向量所占字节数目
+        size_t size_links_per_element_; // 每个向量作为顶点，对应边数目大小
 
         size_t M_;
         size_t maxM_;
@@ -109,7 +103,7 @@ namespace hnswlib {
         VisitedListPool *visited_list_pool_;
         mutex cur_element_count_guard_;
 
-        vector<mutex> link_list_locks_;
+        vector<mutex> link_list_locks_; // 互斥量
         tableint enterpoint_node_;
 
 
@@ -142,12 +136,14 @@ namespace hnswlib {
             return (data_level0_memory_ + internal_id * size_data_per_element_ + offsetData_);
         }
 
+        // select a random level with an exponential distribuion
         int getRandomLevel(double reverse_size) {
             std::uniform_real_distribution<double> distribution(0.0, 1.0);
             double r = -log(distribution(level_generator_)) * reverse_size;
             return (int) r;
         }
 
+        // SELECT-NEIGHBORS, 算法3或者算法4
         std::priority_queue<std::pair<dist_t, tableint>, vector<pair<dist_t, tableint>>, CompareByFirst>
         searchBaseLayer(tableint enterpoint_id, void *data_point, int layer) {
             VisitedList *vl = visited_list_pool_->getFreeVisitedList();
@@ -278,6 +274,7 @@ namespace hnswlib {
             return top_candidates;
         }
 
+        // 对应论文SELECT-NEIGHBORS-HEURISTIC部分
         void getNeighborsByHeuristic2(
                 std::priority_queue<std::pair<dist_t, tableint>, vector<pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
                 const int M) {
@@ -334,17 +331,18 @@ namespace hnswlib {
             return (linklistsizeint *) (linkLists_[internal_id] + (level - 1) * size_links_per_element_);
         };
 
+        // 算法1第12行
         void mutuallyConnectNewElement(void *data_point, tableint cur_c,
                                        std::priority_queue<std::pair<dist_t, tableint>, vector<pair<dist_t, tableint>>, CompareByFirst> top_candidates,
                                        int level) {
 
-            size_t Mcurmax = level ? maxM_ : maxM0_;
+            size_t Mcurmax = level ? maxM_ : maxM0_; // 32 or 64
             getNeighborsByHeuristic2(top_candidates, M_);
-            if (top_candidates.size() > M_)
+            if (top_candidates.size() > M_) // 最近邻返回的数目，不能超过设置的M
                 throw runtime_error("Should be not be more than M_ candidates returned by the heuristic");
 
             vector<tableint> selectedNeighbors;
-            selectedNeighbors.reserve(M_);
+            selectedNeighbors.reserve(M_); // 保存候选的近邻
             while (top_candidates.size() > 0) {
                 selectedNeighbors.push_back(top_candidates.top().second);
                 top_candidates.pop();
@@ -352,7 +350,7 @@ namespace hnswlib {
             {
                 linklistsizeint *ll_cur;
                 if (level == 0)
-                    ll_cur = get_linklist0(cur_c);
+                    ll_cur = get_linklist0(cur_c); // 获取当前向量的链表
                 else
                     ll_cur = get_linklist(cur_c, level);
 
@@ -376,17 +374,17 @@ namespace hnswlib {
 
                 }
             }
+            
+            // 算法1第13行
             for (int idx = 0; idx < selectedNeighbors.size(); idx++) {
 
                 unique_lock <mutex> lock(link_list_locks_[selectedNeighbors[idx]]);
-
-
                 linklistsizeint *ll_other;
                 if (level == 0)
-                    ll_other = get_linklist0(selectedNeighbors[idx]);
+                    ll_other = get_linklist0(selectedNeighbors[idx]); // 获取链表
                 else
                     ll_other = get_linklist(selectedNeighbors[idx], level);
-                int sz_link_list_other = *ll_other;
+                int sz_link_list_other = *ll_other; // 获取链表大小
 
 
                 if (sz_link_list_other > Mcurmax || sz_link_list_other < 0)
@@ -484,26 +482,27 @@ namespace hnswlib {
             return top_candidates;
         };
 
+        // 保存索引
         void saveIndex(const string &location) {
             std::ofstream output(location, std::ios::binary);
             streampos position;
 
-            writeBinaryPOD(output, offsetLevel0_);
-            writeBinaryPOD(output, max_elements_);
-            writeBinaryPOD(output, cur_element_count);
-            writeBinaryPOD(output, size_data_per_element_);
-            writeBinaryPOD(output, label_offset_);
-            writeBinaryPOD(output, offsetData_);
-            writeBinaryPOD(output, maxlevel_);
-            writeBinaryPOD(output, enterpoint_node_);
-            writeBinaryPOD(output, maxM_);
+            writeBinaryPOD(output, offsetLevel0_); // 0
+            writeBinaryPOD(output, max_elements_); // 最大索引量
+            writeBinaryPOD(output, cur_element_count); // 索引到的向量数目
+            writeBinaryPOD(output, size_data_per_element_); // 780, 每个向量所占的字节数目
+            writeBinaryPOD(output, label_offset_); // 772
+            writeBinaryPOD(output, offsetData_); // 260
+            writeBinaryPOD(output, maxlevel_); //最大层数2
+            writeBinaryPOD(output, enterpoint_node_); // 入节点
+            writeBinaryPOD(output, maxM_); // 每个节点的边最大数目
 
-            writeBinaryPOD(output, maxM0_);
-            writeBinaryPOD(output, M_);
+            writeBinaryPOD(output, maxM0_); // 第0层每个节点的边最大数目
+            writeBinaryPOD(output, M_); // 32
             writeBinaryPOD(output, mult_);
-            writeBinaryPOD(output, ef_construction_);
+            writeBinaryPOD(output, ef_construction_); // 80
 
-            output.write(data_level0_memory_, max_elements_ * size_data_per_element_);
+            output.write(data_level0_memory_, max_elements_ * size_data_per_element_); // 最大索引量所占字节数
 
             for (size_t i = 0; i < max_elements_; i++) {
                 unsigned int linkListSize = element_levels_[i] > 0 ? size_links_per_element_ * element_levels_[i] : 0;
@@ -514,6 +513,7 @@ namespace hnswlib {
             output.close();
         }
 
+        // 载入索引
         void loadIndex(const string &location, SpaceInterface<dist_t> *s) {
 
 
@@ -551,9 +551,7 @@ namespace hnswlib {
             size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
             vector<mutex>(max_elements_).swap(link_list_locks_);
 
-
-            visited_list_pool_ = new VisitedListPool(1, max_elements_);
-
+            visited_list_pool_ = new VisitedListPool(1, (int)max_elements_);
 
             linkLists_ = (char **) malloc(sizeof(void *) * max_elements_);
             element_levels_ = vector<int>(max_elements_);
@@ -577,29 +575,31 @@ namespace hnswlib {
             return;
         }
 
+        // data_point为插入数据，label为第几个向量
         void addPoint(void *data_point, labeltype label)
         {
-            addPoint(data_point, label,-1);
+            addPoint(data_point, label, -1);
         };
 
-        tableint addPoint(void *data_point, labeltype label, int level) {
-
-            tableint cur_c = 0;
+        // tableint: unsigned int, labeltype: size_t
+        tableint addPoint(void *data_point, labeltype label, int level) // level = -1
+        {
+            tableint cur_c = 0; // 当前表初始化？
             {
-                unique_lock <mutex> lock(cur_element_count_guard_);
+                unique_lock <mutex> lock(cur_element_count_guard_); // std::unique_lock 与std::lock_guard都能实现自动加锁与解锁功能，但是std::unique_lock要比std::lock_guard更灵活，但是更灵活的代价是占用空间相对更大一点且相对更慢一点。https://blog.csdn.net/tgxallen/article/details/73522233
                 if (cur_element_count >= max_elements_) {
                     cout << "The number of elements exceeds the specified limit\n";
                     throw runtime_error("The number of elements exceeds the specified limit");
                 };
-                cur_c = cur_element_count;
+                cur_c = (tableint)cur_element_count;
                 cur_element_count++;
             }
-            unique_lock <mutex> lock_el(link_list_locks_[cur_c]);
-            int curlevel = getRandomLevel(mult_);
+            unique_lock <mutex> lock_el(link_list_locks_[cur_c]); // 当前边链表上锁(边链表初始化为最大向量数目)
+            int curlevel = getRandomLevel(mult_); // 随机生成层数
             if (level > 0)
                 curlevel = level;
 
-            element_levels_[cur_c] = curlevel;
+            element_levels_[cur_c] = curlevel; // 当前向量所在层数
 
 
             unique_lock <mutex> templock(global);
@@ -609,7 +609,7 @@ namespace hnswlib {
             tableint currObj = enterpoint_node_;
 
 
-            memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_);
+            memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_); // 将s中当前位置后面的n个字节(typedef unsigned int size_t)用ch替换并返回s
 
             // Initialisation of the data and label
             memcpy(getExternalLabeLp(cur_c), &label, sizeof(labeltype));
@@ -652,18 +652,19 @@ namespace hnswlib {
                     }
                 }
 
+                // 算法1第9行
                 for (int level = min(curlevel, maxlevelcopy); level >= 0; level--) {
                     if (level > maxlevelcopy || level < 0)
                         throw runtime_error("Level error");
 
-                    std::priority_queue<std::pair<dist_t, tableint>, vector<pair<dist_t, tableint>>, CompareByFirst> top_candidates = searchBaseLayer(
-                            currObj, data_point, level);
+                    // SELECT-NEIGHBORS, 算法3或者算法4
+                    std::priority_queue<std::pair<dist_t, tableint>, vector<pair<dist_t, tableint>>, CompareByFirst> top_candidates = searchBaseLayer(currObj, data_point, level);
                     mutuallyConnectNewElement(data_point, cur_c, top_candidates, level);
                 }
 
 
             } else {
-                // Do nothing for the first element
+                // Do nothing for the first element,对于第一个向量，不做任何操作
                 enterpoint_node_ = 0;
                 maxlevel_ = curlevel;
 
@@ -677,6 +678,7 @@ namespace hnswlib {
             return cur_c;
         };
 
+        // 搜索接口
         std::priority_queue<std::pair<dist_t, labeltype >> searchKnn(void *query_data, size_t k) {
             tableint currObj = enterpoint_node_;
             dist_t curdist = fstdistfunc_(query_data, getDataByInternalId(enterpoint_node_), dist_func_param_);

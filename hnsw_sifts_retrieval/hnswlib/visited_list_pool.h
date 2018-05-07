@@ -6,10 +6,11 @@
 namespace hnswlib {
     typedef unsigned short int vl_type;
 
+    // 访问过的元素链表
     class VisitedList {
     public:
-        vl_type curV;
-        vl_type *mass;
+        vl_type curV; // 当前顶点
+        vl_type *mass; // 记录访问过的顶点？
         unsigned int numelements;
 
         VisitedList(int numelements1) {
@@ -26,7 +27,7 @@ namespace hnswlib {
             }
         };
 
-        ~VisitedList() { delete mass; }
+        ~VisitedList() { delete mass; } // 错误：delete [] mass？
     };
 ///////////////////////////////////////////////////////////
 //
@@ -36,8 +37,8 @@ namespace hnswlib {
 
     class VisitedListPool {
         deque<VisitedList *> pool;
-        mutex poolguard;
-        int maxpools;
+        mutex poolguard; // 是一种用于多线程编程中，防止两条线程同时对同一公共资源（比如全局变量）进行读写的机制
+        int maxpools; // 最大线程池数目
         int numelements;
 
     public:

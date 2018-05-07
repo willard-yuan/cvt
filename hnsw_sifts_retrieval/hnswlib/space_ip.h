@@ -42,7 +42,8 @@ namespace hnswlib {
         float *pVect2 = (float *) pVect2v;
         size_t qty = *((size_t *) qty_ptr);
 
-#ifdef USE_AVX
+//#ifdef USE_AVX
+#if 0
         size_t qty16 = qty / 16;
         size_t qty4 = qty / 4;
 
@@ -138,7 +139,8 @@ namespace hnswlib {
         float *pVect2 = (float *) pVect2v;
         size_t qty = *((size_t *) qty_ptr);
 
-#ifdef USE_AVX
+//#ifdef USE_AVX
+#if 0
         size_t qty16 = qty / 16;
 
 
@@ -211,9 +213,9 @@ namespace hnswlib {
 
     class InnerProductSpace : public SpaceInterface<float> {
 
-        DISTFUNC<float> fstdistfunc_;
-        size_t data_size_;
-        size_t dim_;
+        DISTFUNC<float> fstdistfunc_; // 距离函数名
+        size_t data_size_; // 特征字节数
+        size_t dim_; // 特征维度
     public:
         InnerProductSpace(size_t dim) {
             fstdistfunc_ = InnerProduct;
