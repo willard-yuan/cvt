@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 #include "visited_list_pool.h"
 #include "hnswlib.h"
 #include <random>
@@ -44,17 +46,17 @@ namespace hnswlib {
             ef_construction_ = std::max(ef_construction, M_);
             ef_ = 10;
 
-            size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint); // 260, 第0层连接数目？
-            size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype); // 780, 每一个向量占用字节数？
-            offsetData_ = size_links_level0_; // 260
-            label_offset_ = size_links_level0_ + data_size_; // 260+512=772
-            offsetLevel0_ = 0;
+            size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint); // 260, 第0层连接数目
+            size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype); // 260+512+8=780, 每一个向量占用字节数？
+            offsetData_ = size_links_level0_; // 260, 偏移量, data起始的位置
+            label_offset_ = size_links_level0_ + data_size_; // 260+512=772, 偏移量, label起始的位置
+            offsetLevel0_ = 0; // 层次0偏移量
 
-            data_level0_memory_ = (char *) malloc(max_elements_ * size_data_per_element_); // 所有向量在第0层占用的总字节数
+            data_level0_memory_ = (char *) malloc(max_elements_ * size_data_per_element_); // 所有向量在第0层占用的总字节数, max_elements_*780(260+512+8)(边数目+数据+label)
             if (data_level0_memory_ == nullptr) // 异常处理
                 throw new std::runtime_error("Not enough memory");
 
-            cur_element_count = 0; // 当前节点的链接数目？
+            cur_element_count = 0; // 当前节点的链接数目，最大边数目64？
 
             visited_list_pool_ = new VisitedListPool(1, (int)max_elements); // 初始化initmaxpools为1，numelements初始化为所有向量数目
 
@@ -62,7 +64,10 @@ namespace hnswlib {
             enterpoint_node_ = -1; // 输入节点数目
             maxlevel_ = -1; // 最大层数目
 
-            linkLists_ = (char **) malloc(sizeof(void *) * max_elements_); // 35185个连接列表
+            // 调试信息
+            printf("void * size: %d\n", sizeof(void *));
+                    
+            linkLists_ = (char **) malloc(sizeof(void *) * max_elements_); // 35185个边链表列表
             size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint); // 每一个向量连接占用的字节数：32*4 + 4
             mult_ = 1 / log(1.0 * M_); // a simple chioce for the optimal levelMult is 1/ln(M)
             revSize_ = 1.0 / mult_;
@@ -584,10 +589,10 @@ namespace hnswlib {
         // tableint: unsigned int, labeltype: size_t
         tableint addPoint(void *data_point, labeltype label, int level) // level = -1
         {
-            tableint cur_c = 0; // 当前表初始化？
+            tableint cur_c = 0; // 当前表初始化？当前计数器？
             {
                 unique_lock <mutex> lock(cur_element_count_guard_); // std::unique_lock 与std::lock_guard都能实现自动加锁与解锁功能，但是std::unique_lock要比std::lock_guard更灵活，但是更灵活的代价是占用空间相对更大一点且相对更慢一点。https://blog.csdn.net/tgxallen/article/details/73522233
-                if (cur_element_count >= max_elements_) {
+                if (cur_element_count >= max_elements_) { // 当前向量数目计数器
                     cout << "The number of elements exceeds the specified limit\n";
                     throw runtime_error("The number of elements exceeds the specified limit");
                 };
@@ -602,13 +607,14 @@ namespace hnswlib {
             element_levels_[cur_c] = curlevel; // 当前向量所在层数
 
 
-            unique_lock <mutex> templock(global);
+            unique_lock <mutex> templock(global); // 临时锁
             int maxlevelcopy = maxlevel_;
             if (curlevel <= maxlevelcopy)
                 templock.unlock();
             tableint currObj = enterpoint_node_;
 
 
+            // offsetLevel0_, 0层偏移量
             memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_); // 将s中当前位置后面的n个字节(typedef unsigned int size_t)用ch替换并返回s
 
             // Initialisation of the data and label
