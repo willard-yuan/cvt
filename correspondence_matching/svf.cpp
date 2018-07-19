@@ -2,7 +2,7 @@
 #include "svf.hpp"
 
 // eliminating repeated points
-void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vector<cv::KeyPoint>&  mkeypoints, std::vector< cv::DMatch >& good_matches, double pos_threshold = 1.0)
+void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vector<cv::KeyPoint>&  mkeypoints, std::vector< cv::DMatch >& good_matches, double pos_threshold = 2.0)
 {
     std::vector<cv::DMatch> existed_matches;
     for (size_t i = 0; i < good_matches.size();)
@@ -95,7 +95,7 @@ int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::Ke
     return 0;
 }
 
-std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vector<cv::KeyPoint> &qKpts2, std::vector<cv::DMatch> &rawMatches)
+std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vector<cv::KeyPoint> &qKpts2, std::vector<cv::DMatch> &rawMatches, bool removeRepeat)
 {
     std::vector<cv::DMatch> goodMatches;
     goodMatches.clear();
@@ -157,7 +157,9 @@ std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vecto
     }
     delete [] brother_matrix;
     
-    removeRepeated(qKpts1, qKpts2, goodMatches);
+    if (removeRepeat){
+        removeRepeated(qKpts1, qKpts2, goodMatches);
+    }
     
     return goodMatches;
 }

@@ -10,7 +10,7 @@
 
 typedef unsigned char uint8;
 
-std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vector<cv::KeyPoint> &qKpts2, std::vector<cv::DMatch> &rawMatches);
+std::vector<cv::DMatch> getInliers(std::vector<cv::KeyPoint> &qKpts1, std::vector<cv::KeyPoint> &qKpts2, std::vector<cv::DMatch> &rawMatches, bool removeRepeat);
 int spaceValidate(const cv::KeyPoint &pa0, const cv::KeyPoint &pa1, const cv::KeyPoint &pb0, const cv::KeyPoint &pb1);
 uint8 getSiteCode(int height, int width, cv::Point2f pt);
 int getGlobalFeature(cv::Mat img, std::vector<float> &fea);
