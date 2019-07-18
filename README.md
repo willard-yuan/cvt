@@ -12,4 +12,5 @@ CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算�
 - [**Correspondence Matching**](https://github.com/willard-yuan/cvtk/tree/master/correspondence_matching). 局部特征匹配是研究了十几年的课题，目前比较主流且常用的方法除了曾在博客[SIFT Matching with RANSAC](http://yongyuan.name/blog/SIFT(ASIFT)-Matching-with-RANSAC.html)介绍过最近邻/次近邻、RANSAC及其变种方式外，还有霍夫投票、以及基于运动估计的[GMS-Feature-Matcher](https://github.com/JiawangBian/GMS-Feature-Matcher)。SVF算法是一种基于霍夫投票的误匹配点剔除方法，实际应用测试，具有很强的鲁棒性。
 - [**Covdet**](https://github.com/willard-yuan/cvtk/tree/master/covdet), C++ API for covdet of VLFeat，read [doc](https://github.com/willard-yuan/cvtk/tree/master/covdet) in details。
 - [**PCA降维**](https://github.com/willard-yuan/cvtk/tree/master/pca)，详细在[doc](https://github.com/willard-yuan/cvtk/tree/master/pca)有说明。
-- [**Brute Force Search**]()
+- [**Brute Force Search**](https://github.com/willard-yuan/cvtk/tree/master/brute_force_search)，大规模最近邻暴力搜索C++实现。
+- [**TensorFlow Extract Feature With CPP API**](https://github.com/willard-yuan/cvtk/tree/master/tf_extract_feat)，TensorFlow载入PB模型，提取特征代码，C++实现。
