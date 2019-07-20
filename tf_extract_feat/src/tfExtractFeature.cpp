@@ -75,7 +75,7 @@ int CnnFeature::computeFeat(const cv::Mat& img, std::vector<float> &ft)
     auto tmap = t.tensor<float, 2>();
     int output_dim = (int)t.shape().dim_size(1);
     
-    // 打印特征
+    // 保存特征
     ft.clear();
     for (int n = 0; n < output_dim; n++)
     {
