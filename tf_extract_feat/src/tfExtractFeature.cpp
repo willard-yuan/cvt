@@ -1,6 +1,6 @@
 
-#include "opencvUtils.hpp"
-#include "tfExtractFeature.hpp"
+#include "../include/opencvUtils.hpp"
+#include "../include/tfExtractFeature.hpp"
 
 int CnnFeature::nomalizeVector(std::vector<float> &v, const int feature_dim)
 {

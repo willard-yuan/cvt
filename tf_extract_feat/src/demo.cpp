@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "tfExtractFeature.hpp"
+#include "../include/tfExtractFeature.hpp"
 
 int main(int argc, char* argv[]) {
 
