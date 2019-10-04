@@ -209,7 +209,16 @@ bool FFDecoder::init_ffmpeg()
         return false;
     }
 
-    av_image_alloc(rgbframe->data, rgbframe->linesize, frame_width, frame_height, AV_PIX_FMT_RGB24, 4);
+    /* 
+     * 内存对齐：https://blog.csdn.net/grafx/article/details/29185147,
+     * https://stackoverflow.com/questions/35678041/what-is-linesize-alignment-meaning
+    */
+    int align = 1;
+    if ( frame_width % 32 == 0 ) {
+        align = 32;
+    }
+
+    av_image_alloc(rgbframe->data, rgbframe->linesize, frame_width, frame_height, AV_PIX_FMT_RGB24, align);
     frame = av_frame_alloc();
 
     sws_ctx = sws_getContext(coded_width, coded_height, fmt, frame_width, frame_height,
