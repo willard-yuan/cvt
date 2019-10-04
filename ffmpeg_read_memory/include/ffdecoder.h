@@ -40,6 +40,7 @@ private:
     AVFormatContext *format_ctx;
     AVCodecContext  *codec_ctx;
     struct SwsContext *sws_ctx;
+    uint8_t *buffer;
     AVPacket pkt;
 
     string file_name;

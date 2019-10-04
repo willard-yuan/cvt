@@ -1,5 +1,5 @@
-#ifndef baseUUtils_h
-#define baseUUtils_h
+#ifndef baseUtils_h
+#define baseUtils_h
 
 #include <stdio.h>
 #include <glob.h>

@@ -208,11 +208,9 @@ bool FFDecoder::init_ffmpeg()
         av_log(rgbframe , AV_LOG_ERROR, "Could allocate frame.\n");
         return false;
     }
-
-    /* 
-     * 内存对齐：https://blog.csdn.net/grafx/article/details/29185147,
-     * https://stackoverflow.com/questions/35678041/what-is-linesize-alignment-meaning
-    */
+    
+    // 内存对齐：https://blog.csdn.net/grafx/article/details/29185147
+    // https://stackoverflow.com/questions/35678041/what-is-linesize-alignment-meaning
     int align = 1;
     if ( frame_width % 32 == 0 ) {
         align = 32;
@@ -220,7 +218,6 @@ bool FFDecoder::init_ffmpeg()
 
     av_image_alloc(rgbframe->data, rgbframe->linesize, frame_width, frame_height, AV_PIX_FMT_RGB24, align);
     frame = av_frame_alloc();
-
     sws_ctx = sws_getContext(coded_width, coded_height, fmt, frame_width, frame_height,
                             AV_PIX_FMT_BGR24, 0, NULL, NULL, NULL);
     open_flag = true;
