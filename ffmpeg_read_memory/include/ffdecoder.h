@@ -39,7 +39,7 @@ private:
     AVFrame *rgbframe;
     AVFormatContext *format_ctx;
     AVCodecContext  *codec_ctx;
-    SwsContext *sws_ctx;
+    struct SwsContext *sws_ctx;
     AVPacket pkt;
 
     string file_name;

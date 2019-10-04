@@ -190,8 +190,14 @@ bool FFDecoder::init_ffmpeg()
     frame_count = stream->nb_frames;
     int coded_width = stream->codec->coded_width;
     int coded_height = stream->codec->coded_height;
+    
 
     AVPixelFormat fmt = (AVPixelFormat)codecpar->format;
+    
+    if (fmt < 0) {
+        fmt = (AVPixelFormat)(0);
+    }
+    
     AVRational avg_fps = stream->avg_frame_rate;
     frame_fps = (float)avg_fps.num / avg_fps.den;
     frame_pos = 0;
