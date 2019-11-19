@@ -1,0 +1,167 @@
+
+#include "simNet.hpp"
+#include "baseUtils.hpp"
+
+#include <time.h>
+#include <vector>
+
+template<typename T>
+std::vector<T> sliceVec(std::vector<T> const &v, int m, int n)
+{
+    auto first = v.cbegin() + m;
+    auto last = v.cbegin() + n + 1;
+    
+    std::vector<T> vec(first, last);
+    return vec;
+}
+
+void showManyImages(const std::vector<cv::Mat>&srcImages, cv::Size imgSize, std::string title)
+{
+    int nNumImages = (int)srcImages.size();
+    cv::Size nSizeWindows;
+    if (nNumImages > 16){
+        std::cout << "not more than 16 images" << std::endl;
+        system("pause");
+        return;
+    }
+    //根据图片序列数量来确定分割窗口形态
+    switch (nNumImages){
+        case 1:nSizeWindows = cv::Size(1, 1); break;
+        case 2:nSizeWindows = cv::Size(2, 1); break;
+        case 3:
+        case 4:nSizeWindows = cv::Size(2, 2); break;
+        case 5:
+        case 6:nSizeWindows = cv::Size(3, 2); break;
+        case 7:
+        case 8:nSizeWindows = cv::Size(4, 2); break;
+        case 9:nSizeWindows = cv::Size(3, 3); break;
+        default:nSizeWindows = cv::Size(4, 3); break;
+    }
+    //设置小图像尺寸、间隙、边界
+    int nShowImageSizes = 200;
+    int nSplitLineSize = 15;
+    int nAroundLineSize = 50;
+    //创建输出图像，图像大小根据输入源确定
+    const int imagesHeight = nShowImageSizes*nSizeWindows.width + nAroundLineSize + (nSizeWindows.width - 1)*nSplitLineSize;
+    const int imagesWidth = nShowImageSizes*nSizeWindows.height + nAroundLineSize + (nSizeWindows.height - 1)*nSplitLineSize;
+    cv::Mat showWindowImages(imagesWidth, imagesHeight, CV_8UC3, cv::Scalar(0, 0, 0));
+    //提取对应小图像的左上角坐标x,y
+    int posX = (showWindowImages.cols - (nShowImageSizes*nSizeWindows.width + (nSizeWindows.width - 1)*nSplitLineSize)) / 2;
+    int posY = (showWindowImages.rows - (nShowImageSizes*nSizeWindows.height + (nSizeWindows.height - 1)*nSplitLineSize)) / 2;
+    int tempPosX = posX;
+    int tempPosY = posY;
+    //将每一幅小图像整合成大图像
+    for (int i = 0; i < nNumImages; i++){
+        //小图像坐标转换
+        if ((i%nSizeWindows.width == 0) && (tempPosX != posX)){
+            tempPosX = posX;
+            tempPosY += (nSplitLineSize + nShowImageSizes);
+        }
+        //利用rect区域将小图像置于大图像的相应区域
+        cv::Mat tempImage = showWindowImages(cv::Rect(tempPosX, tempPosY, nShowImageSizes, nShowImageSizes));
+        //利用resize实现缩放
+        resize(srcImages[i], tempImage, cv::Size(nShowImageSizes, nShowImageSizes));
+        tempPosX += (nSplitLineSize + nShowImageSizes);
+    }
+    imshow(title, showWindowImages);
+    cv::waitKey();
+}
+
+template <typename T>
+std::vector<size_t> sortIndexes(const std::vector<T> &v)
+{
+    
+    // initialize original index locations
+    std::vector<size_t> idx(v.size());
+    iota(idx.begin(), idx.end(), 0);
+    
+    // sort indexes based on comparing values in v
+    sort(idx.begin(), idx.end(),
+         [&v](size_t i1, size_t i2) {return v[i1] > v[i2];});
+    
+    return idx;
+}
+
+int main(int argc, char **argv)
+{
+    cv::String modelTxt = "./model/deploy_cpu.prototxt";
+    cv::String modelBin = "./model/simNet.caffemodel";
+    int batchSize = 2;
+    
+    cv::String imagesFile = "./test_data/*.jpeg";
+    
+    CnnFeature cnnFeatComputor = CnnFeature(batchSize, modelTxt, modelBin);
+    std::vector<std::string> imgsPath = globVector(imagesFile);
+    
+    std::vector<cv::Mat> imgs;
+    std::vector<std::string> baseNames;
+    
+    for(int i = 0; i < imgsPath.size(); i++)
+    {
+        cv::Mat img = cv::imread(imgsPath.at(i), 1);
+        if (img.empty()) continue;
+        
+        cv::Mat imgResized;
+        cv::resize(img, imgResized, cv::Size(299, 299));
+        
+        
+        imgs.push_back(img);
+        
+        //std::string baseName = removeExtension(getBaseName(imgsPath.at(i), "/"));
+        std::string baseName = imgsPath.at(i);
+        baseNames.push_back(baseName);
+        printf("%d(%d) %s\n", i+1, (int)imgsPath.size(), baseName.c_str());
+        
+        // 测试
+        std::vector<float> ft;
+        ft.clear();
+        cnnFeatComputor.computeFeat(imgResized, ft);
+        std::cout << baseName << " ";
+        for (int j= 0; j < ft.size(); j++) {
+            std::cout << ft.at(j) << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    // 测试
+    std::vector<std::vector<float>> ftsTmp;
+    cnnFeatComputor.computeFeatsBatch(imgs, ftsTmp);
+    for (int i = 0; i < ftsTmp.size(); i++) {
+        std::cout << baseNames.at(i) << " ";
+        for (int j= 0; j < ftsTmp.at(0).size(); j++) {
+            std::cout << ftsTmp.at(i).at(j) << " ";
+        }
+        std::cout << std::endl;
+    }
+    
+    // query
+    std::string queryPath = "./test_data/query.jpeg";
+    cv::Mat imgQuery = cv::imread(queryPath, 1);
+    cv::Mat imgResized;
+    cv::resize(imgQuery, imgResized, cv::Size(299, 299));
+    std::vector<float> queryFT;
+    queryFT.clear();
+    cnnFeatComputor.computeFeat(imgResized, queryFT);
+    for (int j= 0; j < queryFT.size(); j++) {
+        std::cout << queryFT.at(j) << " ";
+    }
+    
+    std::vector<float> simScores;
+    simScores.clear();
+    for (int i = 0; i < ftsTmp.size(); i ++ ) {
+        float simScore = cosine_similarity(queryFT, ftsTmp.at(i));
+        std::cout << baseNames.at(i) << "," << simScore << std::endl;
+        simScores.push_back(simScore);
+    }
+    
+    std::vector<cv::Mat> showImgs;
+    for (auto i: sortIndexes(simScores)) {
+        std::cout << simScores[i] << std::endl;
+        cv::Mat img = cv::imread(baseNames[i], 1);
+        showImgs.push_back(img);
+    }
+    
+    showManyImages(sliceVec(showImgs, 0, 11), cv::Size(300, 300), "test");
+    
+    return 0;
+}
