@@ -14,4 +14,4 @@ CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算�
 - [**PCA降维**](https://github.com/willard-yuan/cvtk/tree/master/pca)，详细在[doc](https://github.com/willard-yuan/cvtk/tree/master/pca)有说明。
 - [**Brute Force Search**](https://github.com/willard-yuan/cvtk/tree/master/brute_force_search)，大规模最近邻暴力搜索C++实现。
 - [**TensorFlow Extract Feature with CPP API**](https://github.com/willard-yuan/cvtk/tree/master/tf_extract_feat)，TensorFlow载入PB模型，提取特征代码，C++实现。
-- [**LibTorch Extract Feature with CPP API**]()，Libtorch载入pt模型，提取特征代码（改成分类等类似），C++实现。
+- [**LibTorch Extract Feature with CPP API**](https://github.com/willard-yuan/cvtk/tree/master/libtorch_extract_feat)，Libtorch载入pt模型，提取特征代码（改成分类等类似），C++实现。
