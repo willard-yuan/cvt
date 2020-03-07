@@ -1,11 +1,6 @@
-
-#ifndef pca_dimension_h
-#define pca_dimension_h
-
+#pragma once
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
-
-const int dimDL = 1024;
 
 class PCAModel{
 public:
@@ -35,12 +30,12 @@ void PCAModel::loadPCA(std::string &filename){
     cv::FileStorage fs(filename, cv::FileStorage::READ);
     
     // opencv 3.2
-    cv::read(fs.root()["vectors"], pca_.eigenvectors);
+    /*cv::read(fs.root()["vectors"], pca_.eigenvectors);
     cv::read(fs.root()["values"], pca_.eigenvalues);
-    cv::read(fs.root()["mean"], pca_.mean);
+    cv::read(fs.root()["mean"], pca_.mean);*/
     
-    // opencv 3.3
-    //pca_.read(fs.root());
+    // opencv 3.3+
+    pca_.read(fs.root());
 }
 
 cv::Mat PCAModel::reductDimension(const float* data, int queryNum, int dim){
@@ -49,8 +44,8 @@ cv::Mat PCAModel::reductDimension(const float* data, int queryNum, int dim){
     for(int i = 0; i < reduceMat.rows; i++){
         cv::Mat norn_mat = reduceMat.row(i)*reduceMat.row(i).t();
         float denom_v = std::max(1e-12, sqrt(norn_mat.at<float>(0, 0)));
-        for (int j = 0; j < dimDL; j++){
-            reduceMat.at<float>(i, j) = reduceMat.at<float>(i, j)/sqrt(denom_v);
+        for (int j = 0; j < reduceMat.cols; j++){
+            reduceMat.at<float>(i, j) = reduceMat.at<float>(i, j)/denom_v;
         }
     }
     return reduceMat;
