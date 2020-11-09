@@ -114,15 +114,28 @@ float cosine_similarity(std::vector<float> &v1, std::vector<float> &v2){
 }
 
 // Normalize vector by L2 norm
-std::vector<float> nomalize_vecotor(std::vector<float> &v){
+std::vector<float> nomalize_vector(std::vector<float> &v){
     std::vector<float> v_norm;
     float norm_v = sqrt(std::inner_product( v.begin(), v.end(), v.begin(), 0.0 ));
-    float denorm_v = std::max(1e-12, norm_v);
+    float denorm_v = std::max((double)1e-12, (double)norm_v);
     for (auto it = v.begin(); it != v.end(); it++){
         float tmp = (*it)/denorm_v;
         v_norm.push_back(tmp);
     }
     return v_norm;
+}
+
+// Normalize vector by L2 norm
+void nomalize_vector(const float* v, float* v_norm, int d) {
+    double accum = 0.;
+    for (int i = 0; i < d; ++i) {
+        accum += v[i] * v[i];
+    }
+    accum = sqrt(accum);
+    float denorm_v = std::max((double)1e-12, (double)accum);
+    for (int i = 0; i < d; ++i) {
+        v_norm[i] = v[i]/denorm_v;
+    }
 }
 
 /**********************************************
