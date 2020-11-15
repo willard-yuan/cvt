@@ -36,6 +36,6 @@ TensorFlow载入PB模型，提取特征代码，C++实现。
 
 Libtorch载入pt模型，提取特征代码（改成分类等类似），C++实现。
 
-### [**int8_quantization**](https://github.com/willard-yuan/cvtk/tree/master/scale_quantization)
+### [**int8_quantization**](https://github.com/willard-yuan/cvtk/tree/master/int8_quant)
 
 标量量化，用于排序上需要获取topK的embedding的场景。
