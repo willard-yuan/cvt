@@ -5,8 +5,6 @@
 
 #include "se/txt2vid_se/util/int8_quantization/int8_quan.h"
 
-// 测试编解码时间的时候，需要warming up
-
 int main() {
     std::string model_path = "int8_sq_model.bin";
 

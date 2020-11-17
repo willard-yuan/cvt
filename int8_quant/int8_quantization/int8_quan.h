@@ -17,6 +17,7 @@ class Int8Quan {
      // 参数 n 说明：表示数组中元素的个数
      int Int8Encode(float *x, uint8_t *bytes, size_t n_dims);
      int Int8Decode(uint8_t *bytes, float *x, size_t n_dims);
+     int Int8DecodeFaiss(std::string &embeddding, float *x);  // NOLINT
      int Int8Decode(std::string &embeddding, float *x);  // NOLINT
      int Int8Decode(PhotoProfile *photo_profile, float *x);
  private:

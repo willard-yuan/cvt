@@ -40,8 +40,8 @@ int Int8Quan::Int8Decode(uint8_t *bytes, float *x, size_t n_dims) {
   return 0;
 }
 
-int Int8Quan::Int8Decode(std::string &embeddding, float *x) {
-  std::vector<uint8_t> codes(embeddding.begin(), embeddding.end());
+int Int8Quan::Int8DecodeFaiss(std::string &embedding, float *x) {
+  std::vector<uint8_t> codes(embedding.begin(), embedding.end());
   size_t n_dims = codes.size();
   uint8_t *bytes = reinterpret_cast<uint8_t*>(&codes[0]);
   if (n_dims % SQuantizer->sq.code_size == 0) {
@@ -52,9 +52,25 @@ int Int8Quan::Int8Decode(std::string &embeddding, float *x) {
   return 0;
 }
 
+int Int8Quan::Int8Decode(std::string &embedding, float *x) {
+  if (embedding.empty()) {
+    return 0;
+  }
+  size_t n_dims = embedding.size();
+  uint8_t *bytes = reinterpret_cast<uint8_t*>(&embedding[0]);
+  if (n_dims % SQuantizer->sq.code_size != 0) {
+    return 0;
+  }
+  for (int i = 0; i < SQuantizer->sq.code_size; ++i) {
+    x[i] = SQuantizer->sq.trained[i] +
+        SQuantizer->sq.trained[i+SQuantizer->sq.code_size]*(bytes[i] + 0.5)/255.0;
+  }
+  return 1;
+}
+
 int Int8Quan::Int8Decode(PhotoProfile *photo_profile, float *x) {
-  std::string embeddding = photo_profile->image_embedding().cross_64d_image_embedding();
-  std::vector<uint8_t> codes(embeddding.begin(), embeddding.end());
+  std::string embedding = photo_profile->image_embedding().cross_64d_image_embedding();
+  std::vector<uint8_t> codes(embedding.begin(), embedding.end());
   size_t n_dims = codes.size();
   uint8_t *bytes = reinterpret_cast<uint8_t*>(&codes[0]);
   if (n_dims % SQuantizer->sq.code_size == 0) {

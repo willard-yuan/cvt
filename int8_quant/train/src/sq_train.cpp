@@ -54,6 +54,15 @@ int main() {
     float *xb = new float[d*num_db];
     float *feat = new float[d];
 
+    float *vmin = new float[d];
+    for (int i = 0; i < d; ++i) {
+      vmin[i] = 0.0;
+    }
+    float *vmax = new float[d];
+    for (int i = 0; i < d; ++i) {
+      vmax[i] = 0.0;
+    }
+
     int count = 0;
     std::vector<std::string> dbIds;
     for (size_t i = 0; i < num_db; ++i) {  // size_t 很重要，数据量太大避免溢出
@@ -76,6 +85,8 @@ int main() {
 
         for (size_t j = 0; j < dim_feat; ++j) {
           xb[dim_feat*i + j] = feat[j];
+          if (feat[j] < vmin[j]) vmin[j] = feat[j];
+          if (feat[j] > vmax[j]) vmax[j] = feat[j];
         }
 
         dbIds.push_back(idStr);
@@ -90,7 +101,35 @@ int main() {
     SQuantizer.train(num_db, xb);
     // SQuantizer.add(num_db, xb);    
     faiss::write_index(&SQuantizer, model_path.c_str());
-    
+
+    float *vdiff = new float[d];
+    for (int i = 0; i < d; ++i) {
+      vdiff[i] = vmax[i] - vmin[i];
+    }
+
+    std::cout << "vmin (from training data): " << std::endl;
+    for (int i = 0; i < d; ++i) {
+      std::cout << vmin[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "vmin (from model data): " << std::endl;
+    for (int i = 0; i < d; ++i) {
+      std::cout << SQuantizer.sq.trained[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "vdiff (training data): " << std::endl;
+    for (int i = 0; i < d; ++i) {
+      std::cout << vdiff[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "vdiff (from model data): " << std::endl;
+    for (int i = d; i < d + d; ++i) {
+      std::cout << SQuantizer.sq.trained[i] << " ";
+    }
+    std::cout << std::endl;
 
     float *xtest = new float[d];
     uint8_t *bytes = new uint8_t[d];
@@ -98,7 +137,6 @@ int main() {
 
     memcpy(xtest, xb, d*sizeof(float));
     SQuantizer.sq.compute_codes(xtest, bytes, 1);
-
     SQuantizer.sq.decode(bytes, xtest_decode, 1);
 
     std::cout << "原始值(64维) " << "int8压缩后表示 " << "解码后表示" << std::endl;
