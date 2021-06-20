@@ -40,9 +40,9 @@ void L2NomalizeVector(float* vector, int d) {
 int main() {
 
     std::string training_data_path = "/raid/yuanyong/ann/faiss_sq/cpp/1b_64d_feats.bin";
-    std::string model_path = "../model/int8_sq_model_v2_1b.bin";
+    std::string model_path = "../model/int8_sq_model_v2_1b.bin";  //  训练scalar quantization保存的模型文件
 
-    size_t d = 64;  // dimension
+    size_t d = 64;  // embedding对应的dimension
     size_t num_db = 0;
 
     std::ifstream fp;
@@ -139,10 +139,10 @@ int main() {
     SQuantizer.sq.compute_codes(xtest, bytes, 1);
     SQuantizer.sq.decode(bytes, xtest_decode, 1);
 
-    std::cout << "原始值(64维) " << "int8压缩后表示 " << "解码后表示" << std::endl;
+    std::cout << "原始值 " << "int8压缩后表示 " << "解码后表示" << std::endl;
     float loss = 0.0;
     float inner_product = 0.0;
-    for (int i = 0; i < 64; i++) {
+    for (int i = 0; i < d; i++) {
         std::cout << xb[i] << ", " << unsigned(bytes[i]) << ", " << xtest_decode[i] << std::endl;
         loss += (xb[i] - xtest_decode[i])*(xb[i] - xtest_decode[i]);
         inner_product += xtest[i]*xtest_decode[i];

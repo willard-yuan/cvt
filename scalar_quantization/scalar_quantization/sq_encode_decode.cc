@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-#include <iostream>
 #include <numeric>
 #include <algorithm>
 #include <iostream>
@@ -14,22 +13,19 @@
 #include "third_party/faiss/include/index_io.h"
 #include "third_party/faiss/include/IndexScalarQuantizer.h"
 
-using namespace std;
-using namespace std::chrono;
-
 // Normalize vector by L2 norm
-std::vector<float> nomalize_vector(std::vector<float> &v) {
+std::vector<float> nomalize_vector(std::vector<float> &v) {  //  NOLINT
     std::vector<float> v_norm;
     float norm_v = sqrt(std::inner_product(v.begin(), v.end(), v.begin(), 0.0));
     float denorm_v = std::max(1e-12, (double)norm_v);
-    for (auto it = v.begin(); it != v.end(); it++){
+    for (auto it = v.begin(); it != v.end(); it++) {
         float tmp = (*it)/denorm_v;
         v_norm.emplace_back(tmp);
     }
     return v_norm;
 }
 
-void L2NomalizeVector(float* vector, int d) {
+void L2NomalizeVector(float* vector, int d) {  // NOLINT
   double accum = 0.0;
   for (int i = 0; i < d; ++i) {
     accum += vector[i] * vector[i];
@@ -42,7 +38,6 @@ void L2NomalizeVector(float* vector, int d) {
 }
 
 int main() {
-
     std::string training_data_path = "1000_test.bin";
     std::string model_path = "int8_sq_model.bin";
 
@@ -56,7 +51,7 @@ int main() {
     std::ifstream fp;
     int num_db = 0;
     fp.open(training_data_path.c_str(), std::ios::in|std::ios::binary);
-    fp.read((char*)&num_db, sizeof(int));
+    fp.read((char*)&num_db, sizeof(int));  // NOLINT
 
     std::cout << "db num: " << num_db << std::endl;
 
@@ -76,13 +71,13 @@ int main() {
     double decode_time = 0.0;
     for (int i = 0; i < num_db; i++) {
         int idSize = 0;
-        fp.read((char*)&idSize, sizeof(int));
+        fp.read((char*)&idSize, sizeof(int));  // NOLINT
         char idName[1024] = {""};
         fp.read(idName, idSize);
         std::string idStr(idName);
 
         int dim_feat = 0;
-        fp.read((char*)&dim_feat, sizeof(int));
+        fp.read((char*)&dim_feat, sizeof(int));  // NOLINT
         if (dim_feat != d) {
             cout << "file error";
             exit(1);
@@ -95,14 +90,14 @@ int main() {
         for (int j = 0; j < dim_feat; j++) {
             xtest[j] = tmp_feat_normed[j];
         }
-        
-        //auto start = high_resolution_clock::now();
+
+        // auto start = high_resolution_clock::now();
         SQuantizer->sq.compute_codes(xtest, bytes, 1);
-        //auto stop = high_resolution_clock::now();
-        //auto duration = duration_cast<microseconds>(stop - start);
-        //cout << "\nTime taken by function : "<< duration.count() << " microseconds";
+        // auto stop = high_resolution_clock::now();
+        // auto duration = duration_cast<microseconds>(stop - start);
+        // cout << "\nTime taken by function : "<< duration.count() << " microseconds";
         auto start = high_resolution_clock::now();
-        //SQuantizer->sq.decode(bytes, xtest_decode, 1);
+        // SQuantizer->sq.decode(bytes, xtest_decode, 1);
         for (int j = 0; j < dim_feat; ++j) {
           xtest_decode[j] = trained_result[j] + trained_result[j + 64]*(bytes[j] + 0.5)/255.0;
         }

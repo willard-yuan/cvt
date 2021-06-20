@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 # python3.7
+# 将txt文件转为二进制文件，便于后面用c++快速读取
 
 import struct
-import random
 import numpy as np
 from sklearn.preprocessing import normalize as sknormalize
 
@@ -25,8 +25,6 @@ ids = []
 featsArray = np.zeros((num, dim_feat),dtype = np.float32)
 count = 0
 
-
-# 写入查询文件
 for i, line in enumerate(qcontent):
     feat = [float(value) for value in line.strip().split(',')[1].split('\x02')]
     id_ = line.strip().split(',')[0]
@@ -45,7 +43,7 @@ del qcontent
 
 featsArray = normalize(featsArray)
 
-# 库特征写入二进制
+# 特征写入二进制文件
 db_bin_file = open('embed_v2.bin', 'wb')
 line_binary = struct.pack('i', count)
 db_bin_file.write(line_binary)
