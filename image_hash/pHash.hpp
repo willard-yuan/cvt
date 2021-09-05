@@ -1,3 +1,4 @@
+// Instruction: https://yongyuan.name/blog/improve-phash-for-copy-detection.html
 
 #include <iostream>
 #include <string>
@@ -15,6 +16,8 @@ static inline void imgDct(const cv::Mat& image, cv::Mat& dct) {
 }
 
 // Function: compute image PHash
+// Note: to compute normal pHash, set cons = 0; to compute HighFreq pHash, set cons = 15.
+// You can adjust the cons to get a better result.
 static inline int pHash(const cv::Mat& im, uint64 &hash, int cons) {
     if (im.empty()) {
         return 0;
