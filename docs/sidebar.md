@@ -1,10 +1,10 @@
 <!-- markdownlint-disable-next-line first-line-heading -->
-- [Introduction](简介)
-- [Quick Start](快速开始)
-- [Themes](局部特征检索)
-- [Customization](局部特征匹配)
-- [Options](局部特征)
-- [Markdown](图像哈希)
+- [简介](introduction)
+- [快速开始](quick-start)
+- [局部特征](options)
+- [局部特征检索](themes)
+- [局部特征匹配](customization)
+- [图像哈希](markdown)
 - [Changelog](changelog)
 - **Links**
 - [![Code](assets/img/code.svg)Demo Sandbox](https://codesandbox.io/s/xv36w4695o)
