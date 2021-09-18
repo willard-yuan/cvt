@@ -1,10 +1,10 @@
 <!-- markdownlint-disable-next-line first-line-heading -->
 - [Introduction](简介)
 - [Quick Start](快速开始)
-- [Themes](themes)
-- [Customization](customization)
-- [Options](options)
-- [Markdown](markdown)
+- [Themes](局部特征检索)
+- [Customization](局部特征匹配)
+- [Options](局部特征)
+- [Markdown](图像哈希)
 - [Changelog](changelog)
 - **Links**
 - [![Code](assets/img/code.svg)Demo Sandbox](https://codesandbox.io/s/xv36w4695o)
