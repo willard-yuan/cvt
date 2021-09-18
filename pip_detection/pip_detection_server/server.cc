@@ -3,12 +3,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "base/common/base.h"
-#include "mmu/common/grpc_server_kess_launcher.h"
-#include "mmu/common/utils.h"
-#include "mmu/common/string_utils.h"
-#include "mmu/online_service/protos/mmu_video_edge_detection.kess.grpc.pb.h"
-#include "mmu/similiar/vision/motion_area_detect/include/motion_area_detection.h"
+#include "base.h"
+#include "grpc_server_kess_launcher.h"
+#include "utils.h"
+#include "string_utils.h"
+#include "protos/video_edge_detection.kess.grpc.pb.h"
+#include "include/motion_area_detection.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
