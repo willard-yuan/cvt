@@ -1,6 +1,6 @@
 <!-- markdownlint-disable-next-line first-line-heading -->
-- [Introduction](introduction)
-- [Quick Start](quick-start)
+- [Introduction](简介)
+- [Quick Start](快速开始)
 - [Themes](themes)
 - [Customization](customization)
 - [Options](options)

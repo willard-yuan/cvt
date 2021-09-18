@@ -1,13 +1,9 @@
-# docsify-themeable
+# cvtk
 
-> A delightfully simple theme system for [docsify.js](https://docsify.js.org)
+> CVTK (a Computer Vision ToolKit)，一套经过应用验证的计算机视觉工具箱
 
-- Based on CSS custom properties
-- No packages to install or files to build
-- Improved desktop and mobile experience
-- Multiple themes available
-- Legacy browser support (IE10+)
+- C++ 高效运行
+- 经过实际项目验证
 
-[Get Started](introduction)
-[Demo Sandbox](https://codesandbox.io/s/xv36w4695o)
-[GitHub](https://github.com/jhildenbiddle/docsify-themeable)
+[快速开始](introduction)
+[GitHub](https://github.com/willard-yuan/cvtk)
