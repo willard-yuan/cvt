@@ -1,56 +1,22 @@
-# Themes
+# HNSW SIFTs Retrieval
 
-### Defaults
+[**hnsw_sifts_retrieval**](https://github.com/willard-yuan/mykit/tree/master/cvkit/hnsw_sifts_retrieval)，是一个已直接索引SIFT并通过SIFT匹配点数排序的检索应用，在使用SIFT点数排序的时候，对SIFT匹配的点数做了弱几何校验，剔除误匹配的点数。
 
-A minimalist theme containing only the default values used by all other
-themes. This theme is intended to serve as the most basic starting point for a
-customized theme.
+### 数据适应规模
 
-<a href="#" data-link-title="Defaults">Preview</a> |
-[Source](https://github.com/jhildenbiddle/docsify-themeable/tree/master/src/scss/themes/defaults)
+适合在小中型数据规模上检索。
 
-```html
-<!-- Theme: Defaults -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css">
-```
+### 文件说明
 
-<figure class="thumbnails">
-    <img src="assets/img/theme-defaults-cover.png" alt="Screenshot of coverpage" title="Cover page">
-    <img src="assets/img/theme-defaults-content.png" alt="Screenshot of content" title="Content">
-</figure>
+- [hnswlib](https://github.com/nmslib/hnsw)，对于SIFT特征点的索引，采用HNSW进行索引，HNSW是一种以图方式构建的ANN搜索方法，选择该方法的理由是该方法在ANN搜索方法里，取得的召回率是很优秀的。
+- `makeSIFTs.cpp`，对库中的图片提取rootsift特征，并将描述子以及几何信息保存在一个文件中。
+- `makeIdx.cpp`，对提取的rootsift特征构建索引。
+- `makeSearch.cpp`，对输入的查询图片进行检索。考虑到需要对每个SIFT描述子都需要做1次查询，为保证效率，提取SIFT的时候，设置点数不超过128个。具体可以根据实际使用调整该值。
 
-### Simple
+### 匹配算法
 
-A clean, versatile theme featuring a light color scheme with vibrant accents, a [system font stack](https://css-tricks.com/snippets/css/system-font-stack/), a gradient
-background cover page, and visual indicators for drop-menus and expand/collapse
-state.
+- `svf.hpp`是匹配算法的主要接口，对角度进行弱几何校验后进行霍夫投票，得到校验后的匹配点后，再删除重复匹配的点对，防止出现一对多或多对一的匹配情况出现。
 
-<a href="#" data-link-title="Simple">Preview</a> |
-[Source](https://github.com/jhildenbiddle/docsify-themeable/tree/master/src/scss/themes/theme-simple.scss)
+### 效果测评
 
-```html
-<!-- Theme: Simple -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
-```
-
-<figure class="thumbnails">
-    <img src="assets/img/theme-simple-cover.png" alt="Screenshot of coverpage" title="Cover page">
-    <img src="assets/img/theme-simple-content.png" alt="Screenshot of content" title="Content">
-</figure>
-
-### Simple Dark
-
-A modified version of the Simple theme featuring a dark color scheme.
-
-<a href="#" data-link-title="Simple Dark">Preview</a> |
-[Source](https://github.com/jhildenbiddle/docsify-themeable/tree/master/src/scss/themes/theme-simple-dark.scss)
-
-```html
-<!-- Theme: Simple Dark -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
-```
-
-<figure class="thumbnails">
-    <img src="assets/img/theme-simple-dark-cover.png" alt="Screenshot of coverpage" title="Cover page">
-    <img src="assets/img/theme-simple-dark-content.png" alt="Screenshot of content" title="Content">
-</figure>
+测试了少量的case，效果很好。

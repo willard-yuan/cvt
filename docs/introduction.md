@@ -1,4 +1,4 @@
-# 简介
+# CVTK简介
 
 [![NPM](https://img.shields.io/npm/v/docsify-themeable.svg?style=flat-square)](https://www.npmjs.com/package/docsify-themeable)
 [![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/jhildenbiddle/docsify-themeable/Build/master?label=checks&style=flat-square)](https://github.com/jhildenbiddle/docsify-themeable/actions?query=branch%3Amaster+)
@@ -8,31 +8,42 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-themeable&hashtags=css,docsify,developers,frontend)
 <a class="github-button" href="https://github.com/jhildenbiddle/docsify-themeable" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/docsify-themeable on GitHub">Star</a>
 
-## 特点
+**CVTK, a Computer Vision ToolKit**. CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
 
-- **Flexible theme system based on CSS custom properties**<br>
-  Theme settings are presented as a flat list of logically-named [CSS custom properties](customization). There's no need to navigate or modify complex CSS, allowing changes to be made quickly and confidently.
+## CVTK应用
 
-- **No packages to install or static files to build**<br>
-  All processing is done in the browser, removing the need for CSS preprocessors and other build tools. Just link to a theme, then customize by setting [theme-related properties](customization). That's it.
+- [**HNSW SIFTs Retrieval**](https://github.com/willard-yuan/cvtk/tree/master/hnsw_sifts_retrieval)
 
-- **Multiple themes available**<br>
-  Use a theme as-is, or as a starting point for something completely new. All themes share the same customizable properties, making it easy mix styles from different themes.
+> 一个已直接索引SIFT并通过SIFT匹配点数排序的检索应用，在使用SIFT点数排序的时候，对SIFT匹配的点数做了弱几何校验，剔除误匹配的点数。详细在[doc](https://github.com/willard-yuan/cvtk/tree/master/hnsw_sifts_retrieval)里有说明。
 
-- **Improved desktop and mobile experience**<br>
-  Enhancements that are unique to docsify-themeable—along with docsify- and browser-related bug fixes—provide a more enjoyable and trouble-free experience for site authors and visitors.
+- [**Correspondence Matching**](https://github.com/willard-yuan/cvtk/tree/master/correspondence_matching)
 
-  - [Extensive customization](customization)
-  - [PrismJS theme compatibility](customization#prismjs)
-  - [Module scale typography](customization#base)
-  - [Plugin customization](customization#plugin-styles)
-  - [Ready transition](options#readytransition)
-  - [Responsive tables](options#responsivetables)
+> 局部特征匹配是研究了十几年的课题，目前比较主流且常用的方法除了曾在博客[SIFT Matching with RANSAC](http://yongyuan.name/blog/SIFT(ASIFT)-Matching-with-RANSAC.html)介绍过最近邻/次近邻、RANSAC及其变种方式外，还有霍夫投票、以及基于运动估计的[GMS-Feature-Matcher](https://github.com/JiawangBian/GMS-Feature-Matcher)。SVF算法是一种基于霍夫投票的误匹配点剔除方法，实际应用测试，具有很强的鲁棒性。
 
-- **Legacy browser support (IE10+)**<br>
-  Thoroughly tested and fully compatible with legacy browsers, including support for CSS custom properties (courtesy of a handy [ponyfill](https://github.com/jhildenbiddle/css-vars-ponyfill) developed specifically for docsify-themeable).
+- [**Covdet**](https://github.com/willard-yuan/cvtk/tree/master/covdet)
 
-?> Like docsify-themeable? Be sure to check out [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs)!
+> C++ API for covdet of VLFeat，read [doc](https://github.com/willard-yuan/cvtk/tree/master/covdet) in details。
+
+- [**PCA Train_and Project**](https://github.com/willard-yuan/cvtk/tree/master/pca_train_project)
+
+> 详细在[doc](https://github.com/willard-yuan/cvtk/tree/master/pca_train_project)有说明。
+
+- [**Brute Force Search**](https://github.com/willard-yuan/cvtk/tree/master/brute_force_search)
+
+> 大规模最近邻暴力搜索C++实现。
+
+- [**TensorFlow Extract Feature with CPP API**](https://github.com/willard-yuan/cvtk/tree/master/tf_extract_feat)
+
+> TensorFlow载入PB模型，提取特征代码，C++实现。
+
+- [**LibTorch Extract Feature with CPP API**](https://github.com/willard-yuan/cvtk/tree/master/libtorch_extract_feat)
+
+> Libtorch载入pt模型，提取特征代码（改成分类等类似），C++实现。
+
+- [**int8_quantization**](https://github.com/willard-yuan/cvtk/tree/master/int8_quant)
+
+> 标量量化，用于排序上需要获取topK的embedding的场景。
+
 
 ## Contact & Support
 
@@ -41,6 +52,8 @@
 - Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-themeable) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-themeable&hashtags=css,developers,frontend,javascript) to support the project!
 
 ## License
+
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](../LICENSE)
 
 This project is licensed under the [MIT license](https://github.com/jhildenbiddle/docsify-themeable/blob/master/LICENSE).
 
