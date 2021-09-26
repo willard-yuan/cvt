@@ -9,10 +9,10 @@ SVF算法是一种基于霍夫投票的误匹配点剔除方法，实际应用�
 
 ```text
 @online{SVF, author = {Yong Yuan}, 
-   title = {{SVF} Spatial VeriFication}, 
-  year = 2018, 
-  url = {https://github.com/willard-yuan/cvtk/tree/master/correspondence_matching}, 
-  urldate = {2018} 
+   title = {SVF Spatial VeriFication}, 
+   year = 2018, 
+   url = {https://github.com/willard-yuan/cvtk/tree/master/correspondence_matching}, 
+   urldate = {2018} 
  } 
 ```
 
