@@ -1,8 +1,8 @@
-#include "tools/pca/pca_utils.h"
+#include "pca_utils.h"
 
 #include <algorithm>
 
-namespace mmu {
+namespace cvtk {
 
 void PCAUtils::convertToMat(const float* data, int num, int dim, cv::Mat& mat) {
   mat.create(num, dim, CV_32FC1);
@@ -46,4 +46,4 @@ cv::Mat PCAUtils::reduceDim(const cv::Mat& mat) {
   return reduceMat;
 }
 
-}  // namespace mmu
+}  // namespace cvtk
