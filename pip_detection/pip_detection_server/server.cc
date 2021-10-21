@@ -18,19 +18,19 @@ using grpc::Status;
 DEFINE_string(server_addr, "0.0.0.0", "server address");
 DEFINE_int32(p, 9999, "server port");
 DEFINE_int32(max_worker_threads, 8, "max number of thread");
-DEFINE_string(service_name, "grpc_mmu_motionAreaDetect", "service name");
+DEFINE_string(service_name, "grpc_cvtk_motionAreaDetect", "service name");
 DEFINE_string(shard_name, "s0", "shard name");
 
-class EdgeDetectionServiceImpl final : public ::mmu::img::kess::EdgeDetection::Service {
+class EdgeDetectionServiceImpl final : public ::cvtk::img::kess::EdgeDetection::Service {
  public:
   EdgeDetectionServiceImpl() {}
 
-  Status MotionAreaDetect(::grpc::ServerContext* context, const ::mmu::img::MotionAreaDetectRequest* request,
-                            ::mmu::img::MotionAreaDetectResponse* response) {
-    mmu::StopWatch stopWatch;
+  Status MotionAreaDetect(::grpc::ServerContext* context, const ::cvtk::img::MotionAreaDetectRequest* request,
+                            ::cvtk::img::MotionAreaDetectResponse* response) {
+    cvtk::StopWatch stopWatch;
 
-    mmu::detect::MotionAreaDetecion processor;
-    mmu::detect::Video video;
+    cvtk::detect::MotionAreaDetecion processor;
+    cvtk::detect::Video video;
     video.id = request->id();
     std::vector<std::string> frames;
     for (auto& image : request->image()) {
@@ -49,7 +49,7 @@ class EdgeDetectionServiceImpl final : public ::mmu::img::kess::EdgeDetection::S
       std::copy(data.begin(), data.end(), std::back_inserter(frame.image));
     }
 
-    LOG(INFO) << "ID: " << video.id << " frame:" << mmu::printContainer<std::string>(frames.begin(),
+    LOG(INFO) << "ID: " << video.id << " frame:" << cvtk::printContainer<std::string>(frames.begin(),
                                                                                      frames.end());
 
     try {
@@ -75,7 +75,7 @@ class EdgeDetectionServiceImpl final : public ::mmu::img::kess::EdgeDetection::S
 
 void RunServer() {
   EdgeDetectionServiceImpl service;
-  mmu::launchKessServer(&service, FLAGS_server_addr, FLAGS_p, FLAGS_max_worker_threads, FLAGS_service_name,
+  cvtk::launchKessServer(&service, FLAGS_server_addr, FLAGS_p, FLAGS_max_worker_threads, FLAGS_service_name,
                         FLAGS_shard_name);
 }
 
