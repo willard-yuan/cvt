@@ -1,7 +1,7 @@
 #include "int8_quan.h"
 
-namespace mmu {
-namespace search {
+namespace cvtk {
+namespace quant {
 
 Int8Quan::Int8Quan(const std::string& model_path) {
   std::ifstream fin(model_path);
@@ -131,5 +131,5 @@ int Int8Quan::Int8Decode(std::string& embedding, float* x, int source) {
   return 1;
 }
 
-}  // namespace search
-}  // namespace mmu
+}  // namespace quant
+}  // namespace cvtk
