@@ -24,8 +24,8 @@ int main() {
 
     std::string model_path = "model/int8_siamese_photo_embedding_8kw.bin";
     float xtmp[64] = {0.7678224, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.6331244, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.583638, 0.76271933, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.21529453, 0.0, 0.0, 1.2015152, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.88310665, 0.0, 0.0, 0.19277531, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.5779805, 0.0, 0.0, 0.7728174, 0.0, 2.21898, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    mmu::search::Int8Quan Int8QuanModel = mmu::search::Int8Quan(model_path);
-    //mmu::search::Int8Quan Int8QuanModel = mmu::search::Int8Quan(model_conf_path, 2);
+    cvtk::quant::Int8Quan Int8QuanModel = cvtk::quant::Int8Quan(model_path);
+    //cvtk::quant::Int8Quan Int8QuanModel = cvtk::quant::Int8Quan(model_conf_path, 2);
     float xtest[64];
     uint8_t bytes[64];
 
