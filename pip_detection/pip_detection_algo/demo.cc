@@ -31,24 +31,20 @@ std::vector<char> static read_to_buffer(std::string img_path) {
 }
 
 int main(int argc, const char *argv[]) {
-  mmu::img::MotionArea* motionLocInfo = new mmu::img::MotionArea();
-
-  mmu::detect::Video video;
+  cvtk::img::MotionArea* motionLocInfo = new cvtk::img::MotionArea();
+  cvtk::detect::Video video;
   for(int i = 0; i < 12; i++) {
     int idx = i*25;
-    std::string tmpName = "./data/26368489118/MMU_26368489118_" +
+    std::string tmpName = "./data/26368489118/CVTK_26368489118_" +
         std::to_string(idx) + ".jpg";
-    mmu::detect::Frame tmpFrame;
+    cvtk::detect::Frame tmpFrame;
     tmpFrame.id = "test";
     std::vector<char> vec = read_to_buffer(tmpName);
     tmpFrame.image = vec;
     video.frames.push_back(tmpFrame);
   }
-
-  mmu::detect::MotionAreaDetecion MotionAreaDetector;
-
+  cvtk::detect::MotionAreaDetecion MotionAreaDetector;
   MotionAreaDetector.PipDetect(video, motionLocInfo);
-
   std::string result;
   ::google::protobuf::util::MessageToJsonString(*motionLocInfo, &result);
   std::cout << result << std::endl;
