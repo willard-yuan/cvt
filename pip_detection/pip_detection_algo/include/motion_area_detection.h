@@ -10,12 +10,12 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "mmu/online_service/protos/mmu_video_edge_detection.pb.h"
+#include "protos/cvtk_video_edge_detection.pb.h"
 
-#include "mmu/similiar/vision/motion_area_detect/include/canny_edge_detector.h"
-#include "mmu/similiar/vision/motion_area_detect/include/hough_transform.h"
+#include "canny_edge_detector.h"
+#include "hough_transform.h"
 
-namespace mmu {
+namespace cvtk {
 namespace detect {
 struct Frame {
   std::string id;  // frame id: photoId_frameId
@@ -38,8 +38,8 @@ class MotionAreaDetecion {
  public:
   MotionAreaDetecion();
   ~MotionAreaDetecion(){};
-  int MotionAreaDetect(const Video& Video, ::mmu::img::MotionArea* motionLocInfo);
-  int PipDetect(const Video& Video, ::mmu::img::MotionArea* motionLocInfo);
+  int MotionAreaDetect(const Video& Video, ::cvtk::img::MotionArea* motionLocInfo);
+  int PipDetect(const Video& Video, ::cvtk::img::MotionArea* motionLocInfo);
  protected:
   cv::Ptr<cv::BackgroundSubtractor> pBackSub;
   cv::Mat kernel;
