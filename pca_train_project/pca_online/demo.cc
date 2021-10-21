@@ -52,8 +52,8 @@ int main(int argc, const char * argv[]) {
     }
     
     // 载入PCA model
-    std::string model_path = "./model/pca_256_500w.yml";
-    mmu::PCAUtils model = *mmu::PCAUtils::getInstance();
+    std::string model_path = "pca_256_500w.yml";
+    cvtk::PCAUtils model = *cvtk::PCAUtils::getInstance();
     model.loadModel(model_path);
     
     // 降维
