@@ -5,24 +5,20 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
-namespace mmu {
-
+namespace cvtk {
 struct LineDetectInfo{
   std::vector<float> xSelectcoords;
   std::vector<float> ySelectcoords;
 };
 
 class HoughTransform{
-
 public:
     enum Type {
         STANDARD,
         PROBABILISTIC
     };
-    
     HoughTransform();
     LineDetectInfo detectLines(cv::Mat & input_frame, const std::string & frameId);
-
 private:
     HoughTransform::Type type;
     int hough_transform_threshold_max;
@@ -30,4 +26,4 @@ private:
     float imgScale;
 };
 
-} //end namespace mmu
+} //end namespace cvtk
