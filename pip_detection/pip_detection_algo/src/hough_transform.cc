@@ -1,6 +1,6 @@
 #include "../include/hough_transform.h"
 
-namespace mmu {
+namespace cvtk {
     HoughTransform::HoughTransform() {
         hough_transform_threshold_max = 1000;
         hough_transform_threshold = 300;
@@ -51,4 +51,4 @@ namespace mmu {
         
         return dInfo;
     } 
-} //end namespce mmu
+} //end namespce cvtk
