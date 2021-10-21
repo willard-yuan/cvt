@@ -1,7 +1,7 @@
 #include "../include/motion_area_detection.h"
 #include <glog/logging.h>
 
-namespace mmu {
+namespace cvtk {
 namespace detect {
 MotionAreaDetecion::MotionAreaDetecion() {
   pBackSub = cv::createBackgroundSubtractorMOG2();
@@ -66,7 +66,7 @@ int MotionAreaDetecion::globalThreshold(cv::Mat &image, cv::Mat &imageThresd, in
   return 1;
 }
 int MotionAreaDetecion::PipDetect(const Video& video,
-                                         ::mmu::img::MotionArea* motionLocInfo) {
+                                         ::cvtk::img::MotionArea* motionLocInfo) {
   float prob_detect = 0.0;
   int numFrames = int(video.frames.size());
   int globalUpLines = 0;
@@ -556,7 +556,7 @@ int MotionAreaDetecion::PipDetect(const Video& video,
 }
         
 int MotionAreaDetecion::MotionAreaDetect(const Video& video,
-                                         ::mmu::img::MotionArea* motionLocInfo) {
+                                         ::cvtk::img::MotionArea* motionLocInfo) {
   float prob_detect = 0.0;
   int numFrames = int(video.frames.size());
   int globalUpLines = 0;
