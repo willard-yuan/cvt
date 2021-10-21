@@ -1,12 +1,12 @@
-#ifndef MMU_SIMILIAR_VISION_TOOLS_PCA_PCA_UTILS_H_
-#define MMU_SIMILIAR_VISION_TOOLS_PCA_PCA_UTILS_H_
+#ifndef PCA_UTILS_H_
+#define PCA_UTILS_H_
 
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 
 #include <string>
 
-namespace mmu {
+namespace cvtk {
 
 class PCAUtils {
  public:
@@ -32,6 +32,6 @@ class PCAUtils {
   cv::PCA pca_;
 };
 
-}  // namespace mmu
+}  // namespace cvtk
 
-#endif  // MMU_SIMILIAR_VISION_TOOLS_PCA_PCA_UTILS_H_
+#endif  // PCA_UTILS_H_
