@@ -35,5 +35,5 @@ void FasttextModel::L2Norm(float* vector, int d) {
      vector[i] = vector[i]/denorm_v;
    }
  }
-}  // namespace search
-}  // namespace mmu
+}  // namespace nlp
+}  // namespace cvtk
