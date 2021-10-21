@@ -12,8 +12,8 @@
 #include "third_party/faiss/include/IndexScalarQuantizer.h"
 #include "third_party/faiss/include/index_io.h"
 
-namespace mmu {
-namespace search {
+namespace cvtk {
+namespace quant {
 class Int8Quan {
  public:
   explicit Int8Quan(const std::string& model_path);                       // 单模型加载
@@ -35,5 +35,5 @@ class Int8Quan {
  private:
   std::vector<faiss::IndexScalarQuantizer*> SQuantizers_;
 };
-}  // namespace search
-}  // namespace mmu
+}  // namespace quant
+}  // namespace cvtk
