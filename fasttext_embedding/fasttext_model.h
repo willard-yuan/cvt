@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "./third_party/fasttext/fasttext.h"
+#include "fasttext.h"
 
 namespace cvtk {
 namespace nlp {
