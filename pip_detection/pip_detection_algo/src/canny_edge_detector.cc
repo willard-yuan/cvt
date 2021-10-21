@@ -1,6 +1,6 @@
 #include "../include/canny_edge_detector.h"
 
-namespace mmu {
+namespace cvtk {
 
 CannyEdgeDetector::CannyEdgeDetector() {
   low_threshold_max = 500;
@@ -15,4 +15,4 @@ CannyEdgeDetector::CannyEdgeDetector() {
   return canny_edge_detecion_frame;
 }
 
-} // end namespace mmu
+} // end namespace cvtk
