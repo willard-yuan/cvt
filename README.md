@@ -6,4 +6,4 @@
 
 ## Docs
 
-项目文件 [docs](https://yongyuan.name/cvtk/#/)。
+项目使用文档见[docs](https://yongyuan.name/cvtk/#/)。
