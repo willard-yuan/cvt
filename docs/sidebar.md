@@ -4,7 +4,7 @@
 - [局部特征检索](themes)
 - [局部特征匹配](customization)
 - [图像哈希](markdown)
-- [标量量化](scale_quantization)
+- [量化与索引](scale_quantization)
 - [版本变更](changelog)
 - **Links**
 - [![Code](assets/img/code.svg)Demo Sandbox](https://codesandbox.io/s/xv36w4695o)
