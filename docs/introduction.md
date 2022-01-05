@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/docsify-themeable/blob/master/LICENSE)
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/docsify-themeable/badge)](https://www.jsdelivr.com/package/npm/docsify-themeable)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-themeable&hashtags=css,docsify,developers,frontend)
-<a class="github-button" href="https://github.com/jhildenbiddle/docsify-themeable" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/docsify-themeable on GitHub">Star</a>
+<a class="github-button" href="https://github.com/willard-yuan/cvtk" data-icon="octicon-star" data-show-count="true" aria-label="Star willard-yuan/cvtk on GitHub">Star</a>
 
 **CVTK, a Computer Vision ToolKit**. CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
 
@@ -55,9 +55,7 @@
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](../LICENSE)
 
-This project is licensed under the [MIT license](https://github.com/jhildenbiddle/docsify-themeable/blob/master/LICENSE).
-
-Copyright (c) John Hildenbiddle ([@jhildenbiddle](https://twitter.com/jhildenbiddle))
+Copyright (c) YongYuan ([@YongYuan](https://yongyuan.name))
 
 <!-- GitHub Buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
