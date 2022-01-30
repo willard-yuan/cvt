@@ -47,8 +47,8 @@
 
 ## Contact & Support
 
-- Create a [GitHub issue](https://github.com/willard-yuan/cvtk/issues) for bug reports, feature requests, or questions
-- Follow [@Yong](https://yongyuan.name) for announcements
+- Create a [GitHub issue](https://github.com/willard-yuan/cvtk/issues) for bug reports, feature requests, or questions.
+- Follow [@Yong](https://yongyuan.name) for announcements.
 - Add a ⭐️ [star on GitHub](https://github.com/willard-yuan/cvtk) to support the project!
 
 ## License
