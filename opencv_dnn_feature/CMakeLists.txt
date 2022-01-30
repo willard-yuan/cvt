@@ -42,7 +42,8 @@ set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_INCLUDE_DIR "/usr/local/cuda/include")
 set(CUDA_LIBRARY "/usr/local/cuda/lib64")
 
-set(OpenCV_DIR "/raid/yuanyong/libs/opencv-4.5.0/build")
+#set(OpenCV_DIR "/raid/yuanyong/libs/opencv-4.5.0/build")
+set(OpenCV_DIR "/usr/local/Cellar/opencv/4.5.4_3/lib/cmake/opencv4")
 option( OpenCV_STATIC OFF )
 find_package(OpenCV REQUIRED)
 
@@ -81,7 +82,7 @@ file(GLOB dupnet_files
     "./include/baseUtils.h"
     "./include/dupNet.h"
     "./src/dupNet.cc"
-    "./src/test.cc"
+    "./examples/test.cc"
 )
 
 add_executable(dupnet_demo ${dupnet_files})
