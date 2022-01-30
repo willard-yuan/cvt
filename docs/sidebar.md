@@ -1,5 +1,6 @@
 <!-- markdownlint-disable-next-line first-line-heading -->
 - [简介](introduction)
+- [全局特征](global_feature)
 - [局部特征匹配](options)
 - [局部特征检索](themes)
 - [局部特征匹配](customization)
