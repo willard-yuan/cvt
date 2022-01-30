@@ -47,15 +47,15 @@
 
 ## Contact & Support
 
-- Create a [GitHub issue](https://github.com/jhildenbiddle/docsify-themeable/issues) for bug reports, feature requests, or questions
-- Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-themeable) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-themeable&hashtags=css,developers,frontend,javascript) to support the project!
+- Create a [GitHub issue](https://github.com/willard-yuan/cvtk/issues) for bug reports, feature requests, or questions
+- Follow [@Yong](https://yongyuan.name) for announcements
+- Add a ⭐️ [star on GitHub](https://github.com/willard-yuan/cvtk) to support the project!
 
 ## License
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](../LICENSE)
 
-Copyright (c) YongYuan ([@YongYuan](https://yongyuan.name))
+Copyright (c) YongYuan ([@Yong](https://yongyuan.name))
 
 <!-- GitHub Buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

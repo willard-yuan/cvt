@@ -8,7 +8,6 @@
 - [量化与索引](scale_quantization)
 - [版本变更](changelog)
 - **Links**
-- [![Code](assets/img/code.svg)Demo Sandbox](https://codesandbox.io/s/xv36w4695o)
+- [![Code](assets/img/code.svg)CVTK](https://github.com/willard-yuan/cvtk)
 - [![Github](assets/img/github.svg)Github](https://github.com/willard-yuan/cvtk)
-- [![NPM](assets/img/npm.svg)NPM](https://www.npmjs.com/package/docsify-themeable)
-- [![Twitter](assets/img/twitter.svg)@jhildenbiddle](http://twitter.com/jhildenbiddle)
+- [![Yong](assets/img/yong.svg)@Yong](https://yongyuan.name)
