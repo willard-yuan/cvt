@@ -1,6 +1,6 @@
-# CVTK (a Computer Vision ToolKit) <small>1.0</small>
+# CVTK (Computer Vision ToolKit) <small>1.0</small>
 
-一套经过应用验证的计算机视觉工具箱，助力计算机视觉技术在应用中落地
+一套经过应用验证的计算机视觉工具箱，助力计算机视觉技术在工业应用中落地
 
 - C++高效运行
 - 经过实际项目验证效果
