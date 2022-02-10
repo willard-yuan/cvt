@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(pupil_tracking_pro)
 
 set(CMAKE_C_FLAGS "-m64")
@@ -42,8 +42,7 @@ set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
 set(CUDA_INCLUDE_DIR "/usr/local/cuda/include")
 set(CUDA_LIBRARY "/usr/local/cuda/lib64")
 
-#set(OpenCV_DIR "/raid/yuanyong/libs/opencv-4.5.0/build")
-set(OpenCV_DIR "/usr/local/Cellar/opencv/4.5.4_3/lib/cmake/opencv4")
+set(OpenCV_DIR "/usr/local/Cellar/opencv/4.5.4_4/lib/cmake/opencv4")
 option( OpenCV_STATIC OFF )
 find_package(OpenCV REQUIRED)
 
@@ -63,16 +62,41 @@ if( OpenCV_STATIC )
   endforeach()
 endif()
 
+# OpenMP
+find_package(OpenMP REQUIRED)
+if(NOT TARGET OpenMP::OpenMP_CXX)
+    add_library(OpenMP_TARGET INTERFACE)
+    add_library(OpenMP::OpenMP_CXX ALIAS OpenMP_TARGET)
+    target_compile_options(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
+    find_package(Threads REQUIRED)
+    target_link_libraries(OpenMP_TARGET INTERFACE Threads::Threads)
+    target_link_libraries(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
+endif()
 
 #set(OpenCV_INCLUDE_DIRS "/raid/yuanyong/libs/opencv4.5.0/include/opencv4/")
 #set(OpenCV_LIBS_DIRS "/raid/yuanyong/libs/opencv4.5.0/lib")
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-message(STATUS "OpenCV library status:")
-message(STATUS "    config: ${OpenCV_DIR}")
-message(STATUS "    version: ${OpenCV_VERSION}")
-message(STATUS "    libraries: ${OpenCV_LIBS}")
-message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+# OpenCV message
+message(STATUS "OpenCV version: ${OpenCV_VERSION}")
+message(STATUS "OpenCV config: ${OpenCV_DIR}")
+message(STATUS "OpenCV libraries: ${OpenCV_LIBS}")
+message(STATUS "OpenCV include path: ${OpenCV_INCLUDE_DIRS}")
+
+# OpenMP message
+message(STATUS "OpenMP_VERSION: ${OpenMP_VERSION}")
+message(STATUS "OpenMP_FOUND: ${OpenMP_FOUND}")
+message(STATUS "OpenMP_CXX_FOUND: ${OpenMP_CXX_FOUND}")
+message(STATUS "OpenMP_CXX_FLAGS: ${OpenMP_CXX_FLAGS}")
+message(STATUS "OpenMP_CXX_INCLUDE_DIRS: ${OpenMP_CXX_INCLUDE_DIRS}")
+message(STATUS "OpenMP_CXX_LIB_NAMES: ${OpenMP_CXX_LIB_NAMES}")
+message(STATUS "OpenMP_CXX_LIBRARIES: ${OpenMP_CXX_LIBRARIES}")
+message(STATUS "OpenMP_LIBRARY: ${OpenMP_LIBRARY}" )
+message(STATUS "OpenMP_CXX_SPEC_DATE: ${OpenMP_CXX_SPEC_DATE}")
+message(STATUS "OpenMP_CXX_VERSION_MAJOR: ${OpenMP_CXX_VERSION_MAJOR}")
+message(STATUS "OpenMP_CXX_VERSION_MINOR: ${OpenMP_CXX_VERSION_MINOR}")
+message(STATUS "OpenMP_CXX_VERSION: ${OpenMP_CXX_VERSION}")
+
 
 #set(Faiss_INCLUDE_DIRS "/raid/yuanyong/libs/faiss-1.5.3-build/include")
 #set(Faiss_LIBS_DIRS "/raid/yuanyong/libs/faiss-1.5.3-build/lib/libfaiss.so")
@@ -85,4 +109,4 @@ file(GLOB pupil_tracking_files
 )
 
 add_executable(pupil_tracking_demo ${pupil_tracking_files})
-target_link_libraries(pupil_tracking_demo ${OpenCV_LIBS})
+target_link_libraries(pupil_tracking_demo ${OpenCV_LIBS} OpenMP::OpenMP_CXX)

@@ -9,7 +9,7 @@
 #include "../include/erase_specular.h"
 #include "../include/eye_center.h"
 
-#include </usr/local/Cellar/libomp/13.0.1/include/omp.h>
+//#include </usr/local/Cellar/libomp/13.0.1/include/omp.h>
 
 class HaarSurroundFeature
 {
