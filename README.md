@@ -13,7 +13,7 @@
 若在使用过程中出现问题，请在赞赏留言中留下您的微信，收到消息后我会尽快修复。
 
 <div align="left">
-  <img width="80%" alt="A small reward is highly appreciated! (#^.^#) Thank you~" src="doc/imgs/weipayimg.jpg">
+  <img width="80%" alt="A small reward is highly appreciated! (#^.^#) Thank you~" src="docs/imgs/weipayimg.jpg">
 </div>
 
 
