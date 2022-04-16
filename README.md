@@ -10,7 +10,7 @@
 
 ## Note
 
-若在使用过程中出现问题，请在赞赏留言中留下您的微信，收到消息后我会尽快修复。
+若在使用过程中出现任何问题，请在赞赏留言中留下您的微信，收到消息后我会尽快修复。
 
 <div align="left">
   <img width="20%" alt="A small reward is highly appreciated! (#^.^#) Thank you~" src="docs/imgs/weipayimg.jpg">
