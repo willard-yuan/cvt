@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(dupnet_pro)
+project(correspondence_matching_pro)
 
 set(CMAKE_C_FLAGS "-m64")
 set(CMAKE_CXX_FLAGS "-std=c++11 -m64")
@@ -38,34 +38,15 @@ if (USE_SIMD_AVX2)
     endif()
 endif()
 
-set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
-set(CUDA_INCLUDE_DIR "/usr/local/cuda/include")
-set(CUDA_LIBRARY "/usr/local/cuda/lib64")
+#set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
+#set(CUDA_INCLUDE_DIR "/usr/local/cuda/include")
+#set(CUDA_LIBRARY "/usr/local/cuda/lib64")
 
-#set(OpenCV_DIR "/raid/yuanyong/libs/opencv-4.5.0/build")
-set(OpenCV_DIR "/usr/local/Cellar/opencv/4.5.5_1/lib/cmake/opencv4")
+set(OpenCV_DIR "/Users/willard/libs/opencv/4.6.0/lib/cmake/opencv4")
 option( OpenCV_STATIC OFF )
 find_package(OpenCV REQUIRED)
 
-# Additional Library Directories
 link_directories( ${OpenCV_LIB_DIR} )
-
-# Set Static Link Runtime Library
-if( OpenCV_STATIC )
-  foreach( flag_var
-           CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-           CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-           CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-           CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO )
-    if( ${flag_var} MATCHES "/MD" )
-      string( REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}" )
-    endif()
-  endforeach()
-endif()
-
-
-#set(OpenCV_INCLUDE_DIRS "/raid/yuanyong/libs/opencv4.5.0/include/opencv4/")
-#set(OpenCV_LIBS_DIRS "/raid/yuanyong/libs/opencv4.5.0/lib")
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 message(STATUS "OpenCV library status:")
@@ -78,12 +59,11 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 #set(Faiss_LIBS_DIRS "/raid/yuanyong/libs/faiss-1.5.3-build/lib/libfaiss.so")
 #include_directories(${Faiss_INCLUDE_DIRS})
 
-file(GLOB dupnet_files
-    "./include/baseUtils.h"
-    "./include/dupNet.h"
-    "./src/dupNet.cc"
-    "./examples/test.cc"
+file(GLOB correspondence_matching_files
+    "./include/svf.h"
+    "./src/svf.cc"
+    "./examples/opencv_sift_matching.cc"
 )
 
-add_executable(dupnet_demo ${dupnet_files})
-target_link_libraries(dupnet_demo ${OpenCV_LIBS})
+add_executable(correspondence_matching_demo ${correspondence_matching_files})
+target_link_libraries(correspondence_matching_demo ${OpenCV_LIBS})

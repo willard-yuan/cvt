@@ -1,5 +1,5 @@
 
-#include "svf.hpp"
+#include "../include/svf.h"
 
 // eliminating repeated points
 void removeRepeated(const std::vector<cv::KeyPoint>& skeypoints, const std::vector<cv::KeyPoint>&  mkeypoints, std::vector< cv::DMatch >& good_matches, double pos_threshold = 2.0)
@@ -168,7 +168,7 @@ void rootSift(cv::Mat &descriptors, const float eps) {
     // Compute sums for L1 Norm
     cv::Mat sums_vec;
     descriptors = cv::abs(descriptors); //otherwise we draw sqrt of negative vals
-    cv::reduce(descriptors, sums_vec, 1 /*sum over columns*/, CV_REDUCE_SUM, CV_32FC1);
+    cv::reduce(descriptors, sums_vec, 1 /*sum over columns*/, cv::REDUCE_SUM, CV_32FC1);
     for(int row = 0; row < descriptors.rows; row++){
         int offset = row*descriptors.cols;
         for(int col = 0; col < descriptors.cols; col++){
