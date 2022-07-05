@@ -60,8 +60,8 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 #include_directories(${Faiss_INCLUDE_DIRS})
 
 file(GLOB fastestDet_files
-    "./main.cc"
+    "./examples/fastest_det_demo.cc"
 )
 
-add_executable(fastestDet_demo ${fastestDet_files})
-target_link_libraries(fastestDet_demo ${OpenCV_LIBS})
+add_executable(fastest_det_demo ${fastestDet_files})
+target_link_libraries(fastest_det_demo ${OpenCV_LIBS})
