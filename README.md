@@ -1,12 +1,12 @@
-## CVTK
+## CVT
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](../LICENSE)
 
-**CVTK, a Computer Vision ToolKit**. CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
+**CVTK, a Computer Vision Toolkit**. CVT以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
 
 ## Docs
 
-项目使用文档见[docs](https://yongyuan.name/cvtk/#/)。
+项目使用文档见[docs](https://yongyuan.name/cvt/#/)。
 
 ## Note
 
@@ -15,12 +15,3 @@
 <div align="left">
   <img width="20%" alt="A small reward is highly appreciated! (#^.^#) Thank you~" src="docs/imgs/weipayimg.jpg">
 </div>
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=willard-yuan/cvtk&type=Date)](https://star-history.com/#willard-yuan/cvtk&Date)
-
-
-
-
