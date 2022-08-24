@@ -5,6 +5,7 @@ src/util/version.h
 # Custom directories
 .idea/
 .vscode
+.github/
 .DS_Store
 build*/
 install-debug/
