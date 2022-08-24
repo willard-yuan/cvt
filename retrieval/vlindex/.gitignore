@@ -6,6 +6,7 @@ src/util/version.h
 .idea/
 .vscode
 .DS_Store
+.azure-pipelines/
 build*/
 install-debug/
 install-release/
