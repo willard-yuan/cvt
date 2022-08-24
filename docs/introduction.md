@@ -1,4 +1,4 @@
-# CVTK简介
+# CVT简介
 
 [![NPM](https://img.shields.io/npm/v/docsify-themeable.svg?style=flat-square)](https://www.npmjs.com/package/docsify-themeable)
 [![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/jhildenbiddle/docsify-themeable/Build/master?label=checks&style=flat-square)](https://github.com/jhildenbiddle/docsify-themeable/actions?query=branch%3Amaster+)
@@ -8,9 +8,9 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-themeable&hashtags=css,docsify,developers,frontend)
 <a class="github-button" href="https://github.com/willard-yuan/cvtk" data-icon="octicon-star" data-show-count="true" aria-label="Star willard-yuan/cvtk on GitHub">Star</a>
 
-**CVTK, a Computer Vision ToolKit**. CVTK以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
+**CVT, a Computer Vision Toolkit**. CVT以个人计算机视觉实践经验为基础，旨在构建高效的计算机视觉常用工具集。
 
-## CVTK应用
+## CVT应用
 
 - [**HNSW SIFTs Retrieval**](https://github.com/willard-yuan/cvtk/tree/master/hnsw_sifts_retrieval)
 
